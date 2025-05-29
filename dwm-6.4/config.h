@@ -8,16 +8,15 @@ static const int showbar = 1;           /* 0 means no bar */
 static const int topbar = 0;            /* 0 means bottom bar */
 
 // font
-static const char *fonts[] = {
-    "FiraCode Nerd Font Propo Ret:size=10",
-    "Noto Sans CJK JP Medium:size=10"};
-    
+static const char *fonts[] = {"FiraCode Nerd Font Propo Ret:size=10",
+                              "Noto Sans CJK JP Medium:size=10"};
+
 static const char dmenufont[] = {
     "FiraCode Nerd Font Mono Ret:style=Regular:size=10"};
 
 // colorscheme
 static const char col_gray1[] = "#0f1015";
-static const char col_gray2[] = "#444444";
+static const char col_gray2[] = "#52263e";
 static const char col_gray3[] = "#bbbbbb";
 static const char col_gray4[] = "#eeeeee";
 static const char col_cyan[] = "#ac3232"; /* focused color */
@@ -88,6 +87,11 @@ static const char *ddnet[] = {"sh", "-c", "~/scripts/ddnet.sh", NULL};
 static const char *osu[] = {"sh", "-c", "~/scripts/osu.sh", NULL};
 
 static const char *termcmd[] = {"sh", "-c", "ghostty", NULL};
+static const char *layoutswitch[] = {"sh", "-c", "~/scripts/layoutswitch.sh", NULL};
+
+// backlight patch
+static const char *upbrightness[] = {"xbacklight", "-inc", "10", NULL};
+static const char *downbrightness[] = {"xbacklight", "-dec", "10", NULL};
 
 /* bindkeys */
 static const Key keys[] = {
@@ -96,29 +100,32 @@ static const Key keys[] = {
         TAGKEYS(XK_w, 4) TAGKEYS(XK_e, 5)
 
     // important dwm stuff
-    { MODKEY, XK_r, spawn, {.v = dmenucmd}},
-    { MODKEY | ShiftMask, XK_Return, quit, {0}},
+    {MODKEY, XK_r, spawn, {.v = dmenucmd}},
+    {MODKEY | ShiftMask, XK_Return, quit, {0}},
 
-    { MODKEY, XK_a, spawn, {.v = browser}},
-    { MODKEY, XK_s, spawn, {.v = discord}},
-    { MODKEY, XK_d, spawn, {.v = termcmd}},
-    { MODKEY, XK_f, togglefullscr, {0}},
-    { MODKEY, XK_g, spawn, {.v = music}},
-    { MODKEY, XK_g, spawn, {.v = minecraft}},
-    { MODKEY, XK_z, spawn, {.v = ddnet}},
-    { MODKEY, XK_x, spawn, {.v = osu}},
+    {MODKEY, XK_a, spawn, {.v = browser}},
+    {MODKEY, XK_s, spawn, {.v = discord}},
+    {MODKEY, XK_d, spawn, {.v = termcmd}},
+    {MODKEY, XK_f, togglefullscr, {0}},
+    {MODKEY, XK_g, spawn, {.v = music}},
+    {MODKEY, XK_g, spawn, {.v = minecraft}},
+    {MODKEY, XK_z, spawn, {.v = ddnet}},
+    {MODKEY, XK_x, spawn, {.v = osu}},
 
     {MODKEY, XK_b, togglebar, {0}},
     // awesomebar patch
-    {MODKEY,                       XK_j,      focusstackvis,  {.i = +1 } },
-    {MODKEY,                       XK_k,      focusstackvis,  {.i = -1 } },
-    {MODKEY|ShiftMask,             XK_j,      focusstackhid,  {.i = +1 } },
-    {MODKEY|ShiftMask,             XK_k,      focusstackhid,  {.i = -1 } },
+    {MODKEY, XK_j, focusstackvis, {.i = +1}},
+    {MODKEY, XK_k, focusstackvis, {.i = -1}},
+    {MODKEY | ShiftMask, XK_j, focusstackhid, {.i = +1}},
+    {MODKEY | ShiftMask, XK_k, focusstackhid, {.i = -1}},
 
+    // backlight patch
+    {0, XF86XK_MonBrightnessUp, spawn, {.v = upbrightness}},
+    {0, XF86XK_MonBrightnessDown, spawn, {.v = downbrightness}},
 
     /* remove inc/dec master: i don't use it, takes up keybinding slots */
-    { MODKEY,                       XK_o,      incnmaster,     {.i = +1 } },
-    { MODKEY,                       XK_p,      incnmaster,     {.i = -1 } },
+    {MODKEY, XK_o, incnmaster, {.i = +1}},
+    {MODKEY, XK_p, incnmaster, {.i = -1}},
 
     // window control
     {MODKEY, XK_h, setmfact, {.f = -0.05}},
@@ -139,9 +146,12 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
 
     // awesomebar patch
-    { MODKEY,                       XK_t,      show,           {0} },
-    { MODKEY|ShiftMask,             XK_t,      showall,        {0} },
-    { MODKEY,                       XK_y,      hide,           {0} },
+    {MODKEY, XK_t, show, {0}},
+    {MODKEY | ShiftMask, XK_t, showall, {0}},
+    {MODKEY, XK_y, hide, {0}},
+	
+    // layout switching
+    { MODKEY, XK_6, spawn, {.v = layoutswitch} }
 
 };
 
