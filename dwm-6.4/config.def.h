@@ -59,10 +59,6 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *upbrightness[]   = { "xbacklight", "-inc", "10", NULL };
-static const char *downbrightness[] = { "xbacklight", "-dec", "10", NULL };
-static const char *incvol[] = {"/usr/bin/amixer", "set", "Master", "5+", NULL};
-static const char *decvol[] = {"/usr/bin/amixer", "set", "Master", "5-", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -105,10 +101,6 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ 0,				XF86XK_AudioLowerVolume,spawn,{.v = decvol} },	
-	{ 0,				XF86XK_AudioRaiseVolume,spawn,{.v = incvol} },
-        { 0,            XF86XK_MonBrightnessUp,    spawn,          {.v = upbrightness } },
-        { 0,            XF86XK_MonBrightnessDown,  spawn,          {.v = downbrightness } },
 };
 
 /* button definitions */

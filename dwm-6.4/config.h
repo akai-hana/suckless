@@ -2,28 +2,32 @@
 
 /* appearance */
 // windows
-static const unsigned int borderpx = 4; /* border pixel of windows */
-static const unsigned int snap = 32;    /* snap pixel */
-static const int showbar = 1;           /* 0 means no bar */
-static const int topbar = 0;            /* 0 means bottom bar */
+static const unsigned int borderpx = 4;  // border pixel of windows
+static const unsigned int snap     = 32; // snap pixel
+static const int showbar           = 1;  // 0 means no bar
+static const int topbar            = 0;  // 0 means bottom bar
 
 // font
-static const char *fonts[] = {"FiraCode Nerd Font Propo Ret:size=10",
-                              "Noto Sans CJK JP Medium:size=10"};
+static const char *fonts[] = {
+	"FiraCode Nerd Font Propo Ret:size=10",
+        "Noto Sans CJK JP Medium:size=10"
+};
 
 static const char dmenufont[] = {
-    "FiraCode Nerd Font Mono Ret:style=Regular:size=10"};
+	"FiraCode Nerd Font Mono Ret:style=Regular:size=10"
+};
 
 // colorscheme
-static const char col_gray1[] = "#0f1015";
-static const char col_gray2[] = "#52263e";
-static const char col_gray3[] = "#bbbbbb";
-static const char col_gray4[] = "#eeeeee";
-static const char col_cyan[] = "#ac3232"; /* focused color */
+static const char col_gray1[]  = "#0d0d14";
+static const char col_gray2[]  = "#52263e";
+static const char col_gray3[]  = "#bbbbbb";
+static const char col_gray4[]  = "#eeeeee";
+static const char col_cyan[]   = "#ac3232"; /* focused color */
 static const char *colors[][3] = {
-    /*               fg         bg         border   */
-    [SchemeNorm] = {col_gray3, col_gray1, col_gray2},
-    [SchemeSel] = {col_gray4, col_cyan, col_cyan},
+    /*               fg         bg         border    */
+    [SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
+    [SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+    [SchemeHid]  = { col_gray4, col_gray2, col_cyan  },
 };
 
 /* tagging */
@@ -32,29 +36,27 @@ static const char *tags[] = {"贖", "罪", "へ", "の", "途", "上"};
 
 // workspace redirects
 static const Rule rules[] = {
-    /* class            instance    title  tags mask  isfloating  monitor */
-    {"firefox", NULL, NULL, 1 << 0, 0, -1},
-    {"equibop", NULL, NULL, 1 << 1, 0, -1},
-    {"prismlauncher", NULL, NULL, 1 << 2, 0, -1},
-    {"Emacs", NULL, NULL, 1 << 4, 0, -1},
-    {"java", NULL, NULL, 1 << 4, 0, -1},
-    {"corectrl", NULL, NULL, 1 << 5, 0, -1},
-    {"qbittorrent", NULL, NULL, 1 << 5, 0, -1},
+    /* class          instance title tags mask isfloating  monitor */
+    {"firefox",       NULL,    NULL, 1  <<  0, 0,          -1},
+    {"equibop",       NULL,    NULL, 1  <<  1, 0,          -1},
+    {"prismlauncher", NULL,    NULL, 1  <<  2, 0,          -1},
+    {"Emacs",         NULL,    NULL, 1  <<  4, 0,          -1},
+    {"java",          NULL,    NULL, 1  <<  4, 0,          -1},
+    {"corectrl",      NULL,    NULL, 1  <<  5, 0,          -1},
+    {"qbittorrent",   NULL,    NULL, 1  <<  5, 0,          -1},
 };
 
 /* layout(s) */
-static const float mfact = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster = 1;    /* number of clients in master area */
-static const int resizehints =
-    1; /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen =
-    0; /* 1 will force focus on the fullscreen window */
+static const float mfact        = 0.55; // factor of master area size [0.05..0.95]
+static const int nmaster        = 1;    // number of clients in master area
+static const int resizehints    = 1;    // 1 means respect size hints in tiled resizals
+static const int lockfullscreen = 0;    // 1 will force focus on the fullscreen window
 
 static const Layout layouts[] = {
     /* symbol     arrange function */
-    {"[]=", tile}, /* first entry is default */
-    {"><>", NULL}, /* no layout function means floating behavior */
-    {"[M]", monocle},
+    {"[]=",       tile},   // first entry is default
+    {"><>",       NULL},   // no layout function means floating behavior
+    {"[M]",       monocle},
 };
 
 /* key definitions */
@@ -89,10 +91,6 @@ static const char *osu[] = {"sh", "-c", "~/scripts/osu.sh", NULL};
 static const char *termcmd[] = {"sh", "-c", "ghostty", NULL};
 static const char *layoutswitch[] = {"sh", "-c", "~/scripts/layoutswitch.sh", NULL};
 
-// backlight patch
-static const char *upbrightness[] = {"xbacklight", "-inc", "10", NULL};
-static const char *downbrightness[] = {"xbacklight", "-dec", "10", NULL};
-
 /* bindkeys */
 static const Key keys[] = {
     // workspaces (6)
@@ -118,10 +116,6 @@ static const Key keys[] = {
     {MODKEY, XK_k, focusstackvis, {.i = -1}},
     {MODKEY | ShiftMask, XK_j, focusstackhid, {.i = +1}},
     {MODKEY | ShiftMask, XK_k, focusstackhid, {.i = -1}},
-
-    // backlight patch
-    {0, XF86XK_MonBrightnessUp, spawn, {.v = upbrightness}},
-    {0, XF86XK_MonBrightnessDown, spawn, {.v = downbrightness}},
 
     /* remove inc/dec master: i don't use it, takes up keybinding slots */
     {MODKEY, XK_o, incnmaster, {.i = +1}},
