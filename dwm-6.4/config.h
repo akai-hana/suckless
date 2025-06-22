@@ -38,10 +38,15 @@ static const char *tags[] = {"贖", "罪", "へ", "の", "途", "上"};
 static const Rule rules[] = {
     /* class          instance title tags mask isfloating  monitor */
     {"firefox",       NULL,    NULL, 1  <<  0, 0,          -1},
+    {"zen",           NULL,    NULL, 1  <<  0, 0,          -1},
+    {"zen-browser",   NULL,    NULL, 1  <<  0, 0,          -1},
+    {"discord",       NULL,    NULL, 1  <<  1, 0,          -1},
+    {"vesktop",       NULL,    NULL, 1  <<  1, 0,          -1},
     {"equibop",       NULL,    NULL, 1  <<  1, 0,          -1},
-    {"prismlauncher", NULL,    NULL, 1  <<  2, 0,          -1},
+    {"java",          NULL,    NULL, 1  <<  3, 0,          -1},
+    {"minecraft",     NULL,    NULL, 1  <<  3, 0,          -1},
     {"Emacs",         NULL,    NULL, 1  <<  4, 0,          -1},
-    {"java",          NULL,    NULL, 1  <<  4, 0,          -1},
+    {"prismlauncher", NULL,    NULL, 1  <<  5, 0,          -1},
     {"corectrl",      NULL,    NULL, 1  <<  5, 0,          -1},
     {"qbittorrent",   NULL,    NULL, 1  <<  5, 0,          -1},
 };
@@ -81,14 +86,14 @@ static const char *dmenucmd[] = {
     "-nf",       col_gray3, "-sb",    col_cyan, "-sf",     col_gray4, NULL};
 
 // custom placeholders
-static const char *browser[] = {"sh", "-c", "~/scripts/firefox.sh", NULL};
-static const char *discord[] = {"sh", "-c", "~/scripts/discord.sh", NULL};
+static const char *browser[]   = {"sh", "-c", "~/scripts/firefox.sh", NULL};
+static const char *discord[]   = {"sh", "-c", "~/scripts/discord.sh", NULL};
 static const char *minecraft[] = {"sh", "-c", "prismlauncher", NULL};
-static const char *music[] = {"sh", "-c", "~/scripts/music.sh", NULL};
-static const char *ddnet[] = {"sh", "-c", "~/scripts/ddnet.sh", NULL};
-static const char *osu[] = {"sh", "-c", "~/scripts/osu.sh", NULL};
+static const char *music[]     = {"sh", "-c", "~/scripts/music.sh", NULL};
+static const char *ddnet[]     = {"sh", "-c", "~/scripts/ddnet.sh", NULL};
+static const char *osu[]       = {"sh", "-c", "~/scripts/osu.sh", NULL};
 
-static const char *termcmd[] = {"sh", "-c", "ghostty", NULL};
+static const char *termcmd[]      = {"sh", "-c", "ghostty", NULL};
 static const char *layoutswitch[] = {"sh", "-c", "~/scripts/layoutswitch.sh", NULL};
 
 /* bindkeys */
