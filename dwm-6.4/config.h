@@ -86,10 +86,10 @@ static const char *dmenucmd[] = {
     "-nf",       col_gray3, "-sb",    col_cyan, "-sf",     col_gray4, NULL};
 
 // custom placeholders
-static const char *browser[]   = {"sh", "-c", "~/scripts/firefox.sh", NULL};
-static const char *discord[]   = {"sh", "-c", "~/scripts/discord.sh", NULL};
+static const char *browser[]   = {"sh", "-c", "~/scripts/browser.sh", NULL};
+static const char *discord[]   = {"sh", "-c", "vesktop", NULL};
 static const char *minecraft[] = {"sh", "-c", "prismlauncher", NULL};
-static const char *music[]     = {"sh", "-c", "~/scripts/music.sh", NULL};
+static const char *music[]     = {"sh", "-c", "youtube-music", NULL};
 static const char *ddnet[]     = {"sh", "-c", "~/scripts/ddnet.sh", NULL};
 static const char *osu[]       = {"sh", "-c", "~/scripts/osu.sh", NULL};
 
