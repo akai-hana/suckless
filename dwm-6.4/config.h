@@ -86,12 +86,7 @@ static const char *dmenucmd[] = {
     "-nf",       col_gray3, "-sb",    col_cyan, "-sf",     col_gray4, NULL};
 
 // custom placeholders
-static const char *browser[]   = {"sh", "-c", "~/scripts/browser.sh", NULL};
-static const char *discord[]   = {"sh", "-c", "vesktop", NULL};
-static const char *minecraft[] = {"sh", "-c", "prismlauncher", NULL};
-static const char *music[]     = {"sh", "-c", "youtube-music", NULL};
-static const char *ddnet[]     = {"sh", "-c", "~/scripts/ddnet.sh", NULL};
-static const char *osu[]       = {"sh", "-c", "~/scripts/osu.sh", NULL};
+static const char *browser-kill[]   = {"sh", "-c", "~/scripts/browser-kill.sh", NULL};
 
 static const char *termcmd[]      = {"sh", "-c", "ghostty", NULL};
 static const char *layoutswitch[] = {"sh", "-c", "~/scripts/layoutswitch.sh", NULL};
@@ -103,17 +98,33 @@ static const Key keys[] = {
         TAGKEYS(XK_w, 4) TAGKEYS(XK_e, 5)
 
     // important dwm stuff
-    {MODKEY, XK_r, spawn, {.v = dmenucmd}},
-    {MODKEY | ShiftMask, XK_Return, quit, {0}},
+    { MODKEY, XK_Tab, spawn, { .v = dmenucmd } },
+    { MODKEY | ShiftMask, XK_Return, quit, {0} },
 
-    {MODKEY, XK_a, spawn, {.v = browser}},
-    {MODKEY, XK_s, spawn, {.v = discord}},
-    {MODKEY, XK_d, spawn, {.v = termcmd}},
-    {MODKEY, XK_f, togglefullscr, {0}},
-    {MODKEY, XK_g, spawn, {.v = music}},
-    {MODKEY, XK_g, spawn, {.v = minecraft}},
-    {MODKEY, XK_z, spawn, {.v = ddnet}},
-    {MODKEY, XK_x, spawn, {.v = osu}},
+    // apps
+    { MODKEY, 		  XK_a, spawn, SHCMD("~/scripts/browser.sh") },
+    { MODKEY | ShiftMask, XK_a, spawn, SHCMD("~/scripts/browser-kill.sh") },
+
+    { MODKEY, 		  XK_s, spawn, SHCMD("vesktop") },
+    { MODKEY | ShiftMask, XK_s, spawn, SHCMD("killall vesktop") },
+
+    { MODKEY, 		  XK_d, spawn, SHCMD("kitty") },
+    { MODKEY | ShiftMask, XK_d, spawn, SHCMD("killall kitty") },
+
+    { MODKEY, 		  XK_f, togglefullscr, {0}},
+    { MODKEY | ShiftMask, XK_f, spawn, killclient, {0}},
+
+    { MODKEY, 		  XK_z, spawn, SHCMD("prismlauncher") },
+    { MODKEY | ShiftMask, XK_z, spawn, SHCMD("killall prismlauncher") },
+
+    { MODKEY, 		  XK_x, spawn, SHCMD("ddnet") },
+    { MODKEY | ShiftMask, XK_x, spawn, SHCMD("killall ddnet") },
+
+    { MODKEY, 		  XK_c, spawn, SHCMD("youtube-music") },
+    { MODKEY | ShiftMask, XK_c, spawn, SHCMD("killall youtube-music") },
+
+    { MODKEY, 		  XK_v, spawn, SHCMD("deluge") },
+    { MODKEY | ShiftMask, XK_v, spawn, SHCMD("killall deluge") },
 
     {MODKEY, XK_b, togglebar, {0}},
     // awesomebar patch
@@ -130,11 +141,7 @@ static const Key keys[] = {
     {MODKEY, XK_h, setmfact, {.f = -0.05}},
     {MODKEY, XK_l, setmfact, {.f = +0.05}},
     {MODKEY, XK_grave, zoom, {0}},
-    {MODKEY, XK_Tab, view, {0}},
-    {MODKEY | ShiftMask, XK_c, killclient, {0}},
-    {MODKEY, XK_4, setlayout, {.v = &layouts[0]}},
-    {MODKEY, XK_5, setlayout, {.v = &layouts[1]}},
-    {MODKEY, XK_m, setlayout, {.v = &layouts[2]}},
+    {MODKEY | ShiftMask, XK_Tab, view, {0}},
     {MODKEY, XK_space, setlayout, {0}},
     {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
     {MODKEY, XK_0, view, {.ui = ~0}},
@@ -145,12 +152,13 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
 
     // awesomebar patch
-    {MODKEY, XK_t, show, {0}},
-    {MODKEY | ShiftMask, XK_t, showall, {0}},
-    {MODKEY, XK_y, hide, {0}},
+    {MODKEY, XK_r, hide, {0}},
+    {MODKEY, XK_t, showall, {0}},
+    {MODKEY | ShiftMask, XK_t, show, {0}},
+
 	
     // layout switching
-    { MODKEY, XK_6, spawn, {.v = layoutswitch} }
+    { MODKEY, XK_4, spawn, {.v = layoutswitch} }
 
 };
 
