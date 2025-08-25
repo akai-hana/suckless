@@ -38,31 +38,35 @@ static const char *tags[] = {"贖", "罪", "へ", "の", "途", "上"};
 static const Rule rules[] = {
     /* class           instance title tags   mask isfloating monitor */
     // 1
-    { "firefox",       NULL,    NULL, 1  <<  0,   0,         -1 },
-    { "firefox-bin",   NULL,    NULL, 1  <<  0,   0,         -1 },
-    { "zen",           NULL,    NULL, 1  <<  0,   0,         -1 },
-    { "zen-browser",   NULL,    NULL, 1  <<  0,   0,         -1 },
-    { "vivaldi",       NULL,    NULL, 1  <<  0,   0,         -1 },
-    { "vivaldi-bin",   NULL,    NULL, 1  <<  0,   0,         -1 },
+    { "firefox",       NULL,     NULL, 1  <<  0,   0,         -1 },
+    { "firefox-bin",   NULL,     NULL, 1  <<  0,   0,         -1 },
+    { "zen",           NULL,     NULL, 1  <<  0,   0,         -1 },
+    { "zen-browser",   NULL,     NULL, 1  <<  0,   0,         -1 },
+    { "vivaldi",       NULL,     NULL, 1  <<  0,   0,         -1 },
+    { "vivaldi-bin",   NULL,     NULL, 1  <<  0,   0,         -1 },
     // 2
-    { "discord",       NULL,    NULL, 1  <<  1,   0,         -1 },
-    { "vesktop",       NULL,    NULL, 1  <<  1,   0,         -1 },
-    { "equibop",       NULL,    NULL, 1  <<  1,   0,         -1 },
-    { "electron",      NULL,    NULL, 1  <<  1,   0,         -1 },
+    { "discord",       NULL,     NULL, 1  <<  1,   0,         -1 },
+    { "vesktop",       NULL,     NULL, 1  <<  1,   0,         -1 },
+    { "equibop",       NULL,     NULL, 1  <<  1,   0,         -1 },
+    { "electron",      NULL,     NULL, 1  <<  1,   0,         -1 },
     // 3
-    { "youtube-music", NULL,    NULL, 1  <<  1,   0,         -1 },
+    { "com.github.th_ch.youtube_music", \
+	               NULL,     NULL, 1  <<  2,   0,         -1 },
+    { NULL,            "com.github.th_ch.youtube_music", \
+	                         NULL, 1  <<  2,   0,         -1 },
     // 4
-    { "java",          NULL,    NULL, 1  <<  3,   0,         -1 },
-    { "minecraft",     NULL,    NULL, 1  <<  3,   0,         -1 },
+    { "java",          NULL,     NULL, 1  <<  3,   0,         -1 },
+    { "PrismLauncher", NULL,     NULL, 1  <<  3,   0,         -1 },
+    { "DDNet",         NULL,     NULL, 1  <<  3,   0,         -1 },
     // 5
-    { "emacs",         NULL,    NULL, 1  <<  4,   0,         -1 },
-    { "Emacs",         NULL,    NULL, 1  <<  4,   0,         -1 },
+    { "emacs",         NULL,     NULL, 1  <<  4,   0,         -1 },
+    { "Emacs",         NULL,     NULL, 1  <<  4,   0,         -1 },
     // 6
-    { "prismlauncher", NULL,    NULL, 1  <<  5,   0,         -1 },
-    { "corectrl",      NULL,    NULL, 1  <<  5,   0,         -1 },
-    { "qbittorrent",   NULL,    NULL, 1  <<  5,   0,         -1 },
-    { "deluge",        NULL,    NULL, 1  <<  5,   0,         -1 },
-    { "deluge-gtk",    NULL,    NULL, 1  <<  5,   0,         -1 },
+    { "Prismlauncher", NULL,     NULL, 1  <<  5,   0,         -1 },
+    { "corectrl",      NULL,     NULL, 1  <<  5,   0,         -1 },
+    { "qbittorrent",   NULL,     NULL, 1  <<  5,   0,         -1 },
+    { "Deluge",        NULL,     NULL, 1  <<  5,   0,         -1 },
+    { NULL,            "deluge", NULL, 1  <<  5,   0,         -1 },
 };
 
 /* layout(s) */
