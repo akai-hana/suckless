@@ -120,6 +120,9 @@ static const Key keys[] = {
     { MODKEY | ShiftMask, XK_Return, quit,      {0}             },
     { MODKEY,             XK_b,      togglebar, {0}             },
 
+    { MODKEY,             XK_f, togglefullscr, {0} },
+    { MODKEY | ShiftMask, XK_f, killclient,    {0} },
+
     // apps
     { MODKEY,             XK_a, spawn, SHCMD("~/scripts/browser.sh") },
     { MODKEY | ShiftMask, XK_a, spawn, SHCMD("killall zen-bin")      },
@@ -129,9 +132,6 @@ static const Key keys[] = {
 
     { MODKEY,             XK_d, spawn, SHCMD("ghostty")         },
     { MODKEY | ShiftMask, XK_d, spawn, SHCMD("killall ghostty") },
-
-    { MODKEY,             XK_f, togglefullscr, {0} },
-    { MODKEY | ShiftMask, XK_f, killclient,    {0} },
 
     { MODKEY,             XK_z, spawn, SHCMD("prismlauncher")         },
     { MODKEY | ShiftMask, XK_z, spawn, SHCMD("killall prismlauncher") },
@@ -144,7 +144,6 @@ static const Key keys[] = {
 
     { MODKEY,             XK_v, spawn, SHCMD("deluge")         },
     { MODKEY | ShiftMask, XK_v, spawn, SHCMD("killall deluge") },
-
 
     // awesomebar patch
     { MODKEY,             XK_j, focusstackvis, {.i = +1} },
