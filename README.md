@@ -24,4 +24,5 @@ my custom dwm build.
 ***
 
 #### TO-DO
++ *fix <Super+M> crash (togglewin patch)*
 + *figure out brightness & volume patches*
