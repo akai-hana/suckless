@@ -17,17 +17,28 @@ static const char dmenufont[] = {
     "FiraCode Nerd Font Mono Ret:style=Regular:size=10"
 };
 
+// alpha patch
+#define OPAQUE 0xffU
+static const unsigned int baralpha    = 0xd0;   // bar background alpha (0x00..0xff)
+static const unsigned int borderalpha = OPAQUE; // border alpha
+
 // colorscheme
 static const char col_gray1[]  = "#0d0d14";
 static const char col_gray2[]  = "#52263e";
 static const char col_gray3[]  = "#bbbbbb";
 static const char col_gray4[]  = "#eeeeee";
 static const char col_cyan[]   = "#ac3232"; /* focused color */
+
 static const char *colors[][3] = {
     /*               fg         bg         border    */
     [SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
     [SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
     [SchemeHid]  = { col_gray4, col_gray2, col_cyan  },
+};
+// alpha patch
+/*        fg,          bg,       border */
+static const unsigned int alphas[][3] = {
+	{ borderalpha, baralpha, OPAQUE }
 };
 
 /* tagging */
@@ -151,6 +162,9 @@ static const Key keys[] = {
     { MODKEY | ShiftMask, XK_j, focusstackhid, {.i = +1} },
     { MODKEY | ShiftMask, XK_k, focusstackhid, {.i = -1} },
 
+    // togglewin patch
+    { MODKEY, XK_m, togglewin, {0} },
+    
     /* remove inc/dec master: i don't use it, takes up keybinding slots */
     { MODKEY, XK_o, incnmaster, {.i = +1} },
     { MODKEY, XK_p, incnmaster, {.i = -1} },
