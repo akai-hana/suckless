@@ -14,6 +14,7 @@ my custom dwm build.
 ### dependencies
 + firacode nerd *(**extra/ttf-firacode-nerd** package on arch)*
 + noto sans cjk (jp in particular) *(**world/noto-fonts-cjk** package on arch)*
++ xres library for the better swallow patch *(**world/libxres** package on arch)*
 + optionally, slstatus for a clock *(**aur/slstatus** package on arch)*, and my *~/scripts* dir with the scripts i use, for certain program launch binds (can be found in [my other dotfiles repo](https://github.com/akai-hana/dotfiles))
 
 ### theme
