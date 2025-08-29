@@ -21,6 +21,7 @@
  * To understand everything else, start reading main().
  */
 #include <errno.h>
+#include <stdint.h>
 #include <locale.h>
 #include <signal.h>
 #include <stdarg.h>
@@ -263,6 +264,7 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void xinitvisual();
 static void zoom(const Arg *arg);
+static Client *last_hidden = NULL;
 
 /* variables */
 static const char broken[] = "broken";
@@ -1177,6 +1179,7 @@ hide(const Arg *arg)
 }
 
 void
+
 hidewin(Client *c) {
 	if (!c || HIDDEN(c))
 		return;
@@ -1193,6 +1196,9 @@ hidewin(Client *c) {
 	XSelectInput(dpy, w, ca.your_event_mask & ~StructureNotifyMask);
 	XUnmapWindow(dpy, w);
 	setclientstate(c, IconicState);
+
+	last_hidden = c; // akai patch
+
 	XSelectInput(dpy, root, ra.your_event_mask);
 	XSelectInput(dpy, w, ca.your_event_mask);
 	XUngrabServer(dpy);
@@ -1867,6 +1873,22 @@ seturgent(Client *c, int urg)
 }
 
 void
+
+showwin(Client *c)
+{
+	if (!c || !HIDDEN(c))
+		return;
+
+	XMapWindow(dpy, c->win);
+	setclientstate(c, NormalState);
+
+	if (last_hidden == c)   /* <<< add this */
+		last_hidden = NULL;
+
+	arrange(c->mon);
+}
+
+void
 show(const Arg *arg)
 {
 	if (selmon->hidsel)
@@ -1892,17 +1914,7 @@ showall(const Arg *arg)
 }
 
 void
-showwin(Client *c)
-{
-	if (!c || !HIDDEN(c))
-		return;
 
-	XMapWindow(dpy, c->win);
-	setclientstate(c, NormalState);
-	arrange(c->mon);
-}
-
-void
 showhide(Client *c)
 {
 	if (!c)
@@ -2068,23 +2080,44 @@ toggleview(const Arg *arg)
 }
 
 void
+
 togglewin(const Arg *arg)
 {
-	Client *c = (Client*)arg->v;
+    Client *c = NULL;
+    Monitor *m = NULL;
 
-	if (c == selmon->sel) {
-		hidewin(c);
-		focus(NULL);
-		arrange(c->mon);
-	} else {
-		if (HIDDEN(c))
-			showwin(c);
-		focus(c);
-		restack(selmon);
-	}
+    /* accept either a Client* or a Window id in arg->v */
+    if (arg && arg->v) {
+        c = (Client*)arg->v;
+        /* if arg->v wasn't actually a Client*, try wintoclient */
+        if (!c || !c->win)
+            c = wintoclient((Window)(uintptr_t)arg->v);
+    }
+
+    /* fallback to the currently focused client */
+    if (!c)
+        c = selmon ? selmon->sel : NULL;
+    if (!c)
+        return;
+
+    /* save monitor before any operation that might clear c->mon */
+    m = c->mon;
+
+    if (HIDDEN(c)) {
+        showwin(c);
+        focus(c);
+        restack(c->mon ? c->mon : m);
+    } else {
+        hidewin(c);
+        focus(NULL);
+        if (m)
+            arrange(m);
+    }
 }
 
+
 void
+
 unfocus(Client *c, int setfocus)
 {
 	if (!c)
@@ -2124,6 +2157,9 @@ deleteswallower(Client *c) {
 void
 unmanage(Client *c, int destroyed)
 {
+	if (last_hidden == c)
+	    last_hidden = NULL;
+
 	Monitor *m = c->mon;
 	XWindowChanges wc;
 

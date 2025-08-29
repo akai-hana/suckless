@@ -19,7 +19,7 @@ static const char dmenufont[] = {
 
 // alpha patch
 #define OPAQUE 0xffU
-static const unsigned int baralpha    = 0xd0;   // bar background alpha (0x00..0xff)
+static const unsigned int baralpha    = 0xb0;   // bar background alpha (0x00..0xff)
 static const unsigned int borderalpha = OPAQUE; // border alpha
 
 // colorscheme
