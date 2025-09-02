@@ -156,6 +156,10 @@ static const Key keys[] = {
     { MODKEY,             XK_v, spawn, SHCMD("deluge")         },
     { MODKEY | ShiftMask, XK_v, spawn, SHCMD("killall deluge") },
 
+
+    // shader wallpaper
+    { MODKEY | ShiftMask, XK_grave, spawn, SHCMD("~/scripts/shader-switch.sh") },
+
     // awesomebar patch
     { MODKEY,             XK_j, focusstackvis, {.i = +1} },
     { MODKEY,             XK_k, focusstackvis, {.i = -1} },
