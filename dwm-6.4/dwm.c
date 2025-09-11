@@ -228,7 +228,6 @@ static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
-static void show(const Arg *arg);
 static void showall(const Arg *arg);
 static void showwin(Client *c);
 static void showhide(Client *c);
@@ -1889,14 +1888,7 @@ showwin(Client *c)
 }
 
 void
-show(const Arg *arg)
-{
-	if (selmon->hidsel)
-		selmon->hidsel = 0;
-	showwin(selmon->sel);
-}
 
-void
 showall(const Arg *arg)
 {
 	Client *c = NULL;

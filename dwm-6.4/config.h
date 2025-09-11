@@ -9,12 +9,12 @@ static const int topbar            = 0;  // 0 means bottom bar
 
 // font
 static const char *fonts[] = {
-    "FiraCode Nerd Font Propo Ret:size=10",
+    "Fira Code Retina:size=10",
     "Noto Sans CJK JP Medium:size=10"
 };
 
 static const char dmenufont[] = {
-    "FiraCode Nerd Font Mono Ret:style=Regular:size=10"
+    "Fira Code Retina:size=10"
 };
 
 // alpha patch
@@ -91,9 +91,9 @@ static const Layout layouts[] = {
     // no layout function means floating behavior
 
     /* symbol     arrange function */
-    { "[]=",       tile },
-    { "><>",       NULL },
-    { "[M]",       monocle },
+    { "[]=",      tile    },
+    { "><>",      NULL    },
+    { "[M]",      monocle },
 };
 
 /* key definitions */
@@ -112,64 +112,70 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; // component of dmenucmd, manipulated in spawn()
 
+/* placeholders */
 // dmenu
 static const char *dmenucmd[] = {
-    "dmenu_run", "-b", "-m",       dmenumon, "-fn",    dmenufont, "-nb",     col_gray1,
-    "-nf",       col_gray3, "-sb", col_cyan, "-sf",    col_gray4, NULL
+    "dmenu_run", "-b", "-m",
+    dmenumon, "-fn", dmenufont, "-nb",
+    col_gray1, "-nf", col_gray3,  "-sb", col_cyan, "-sf", col_gray4, NULL
 };
 
-// custom placeholders
-static const char *termcmd[] = {"dash", "-c", "ghostty", NULL};
+// customize your programs here!
+#define BROWSER    "zen" 
+#define BROWSERENV "MOZ_USE_XINPUT2=1"
+
+#define TERMINAL "ghostty"
+#define DISCORD  "equibop"
+#define MUSIC    "youtube-music"
+#define TORRENT  "deluge"
+
+static const char *browsercmd[] = { "dash", "-c", BROWSERENV " " BROWSER, NULL }; // MOZ_USE_XINPUT2 var allows for native xinput touchpad usage
+
+static const char *termcmd[]    = { TERMINAL, NULL };
+static const char *discordcmd[] = { DISCORD,  NULL };
+static const char *musiccmd[]   = { MUSIC,    NULL };
+static const char *torrentcmd[] = { TORRENT,  NULL };
 
 /* bindkeys */
 static const Key keys[] = {
-    // workspaces (6)
+    // workspaces [6]
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_q, 3) TAGKEYS(XK_w, 4) TAGKEYS(XK_e, 5)
 
-    // important dwm stuff
+    /* the basics */
+    // basic wm functionality
+    { MODKEY,             XK_f,      togglefullscr, {0} },
+    { MODKEY | ShiftMask, XK_f,      killclient,    {0} },
+
     { MODKEY,             XK_Tab,    spawn,     {.v = dmenucmd} },
-    { MODKEY | ShiftMask, XK_Return, quit,      {0}             },
     { MODKEY,             XK_b,      togglebar, {0}             },
 
-    { MODKEY,             XK_f, togglefullscr, {0} },
-    { MODKEY | ShiftMask, XK_f, killclient,    {0} },
+    { MODKEY | ShiftMask, XK_Return, quit, {0} }, // quit w
 
-    // apps
-    { MODKEY,             XK_a, spawn, SHCMD("~/scripts/browser.sh") },
-    { MODKEY | ShiftMask, XK_a, spawn, SHCMD("killall zen-bin")      },
+    // basic program binds
+    { MODKEY,             XK_d, spawn, {.v = termcmd }            },
+    { MODKEY | ShiftMask, XK_d, spawn, SHCMD("killall " TERMINAL) },
 
-    { MODKEY,             XK_s, spawn, SHCMD("vesktop")          },
-    { MODKEY | ShiftMask, XK_s, spawn, SHCMD("killall electron") },
+    { MODKEY,             XK_a, spawn, {.v = browsercmd }        },
+    { MODKEY | ShiftMask, XK_a, spawn, SHCMD("killall " BROWSER) },
 
-    { MODKEY,             XK_d, spawn, SHCMD("ghostty")         },
-    { MODKEY | ShiftMask, XK_d, spawn, SHCMD("killall ghostty") },
+    // other program binds
+    { MODKEY,             XK_s, spawn, {.v = discordcmd }        },
+    { MODKEY | ShiftMask, XK_s, spawn, SHCMD("killall " DISCORD) },
 
-    { MODKEY,             XK_z, spawn, SHCMD("prismlauncher")         },
-    { MODKEY | ShiftMask, XK_z, spawn, SHCMD("killall prismlauncher") },
+    { MODKEY,             XK_c, spawn, {.v = musiccmd }        },
+    { MODKEY | ShiftMask, XK_c, spawn, SHCMD("killall " MUSIC) },
+
+    { MODKEY,             XK_v, spawn, {.v = torrentcmd}         },
+    { MODKEY | ShiftMask, XK_v, spawn, SHCMD("killall " TORRENT) },
+
+    // peak gaming
+    { MODKEY,             XK_z, spawn, SHCMD("~/Games/Hollow_Knight/start.sh")   },
+    { MODKEY | ShiftMask, XK_z, spawn, SHCMD("killall Hollow\\ Knight")          },
 
     { MODKEY,             XK_x, spawn, SHCMD("~/Games/t-client/DDNet") },
     { MODKEY | ShiftMask, XK_x, spawn, SHCMD("killall DDNet")          },
 
-    { MODKEY,             XK_c, spawn, SHCMD("youtube-music")         },
-    { MODKEY | ShiftMask, XK_c, spawn, SHCMD("killall youtube-music") },
-
-    { MODKEY,             XK_v, spawn, SHCMD("deluge")         },
-    { MODKEY | ShiftMask, XK_v, spawn, SHCMD("killall deluge") },
-
-    // awesomebar patch
-    { MODKEY,             XK_j, focusstackvis, {.i = +1} },
-    { MODKEY,             XK_k, focusstackvis, {.i = -1} },
-    { MODKEY | ShiftMask, XK_j, focusstackhid, {.i = +1} },
-    { MODKEY | ShiftMask, XK_k, focusstackhid, {.i = -1} },
-
-    // togglewin patch
-    { MODKEY, XK_m, togglewin, {0} },
-    
-    /* remove inc/dec master: i don't use it, takes up keybinding slots */
-    { MODKEY, XK_o, incnmaster, {.i = +1} },
-    { MODKEY, XK_p, incnmaster, {.i = -1} },
-
-    // window control
+    // window handling
     { MODKEY,             XK_h,      setmfact,       {.f = -0.05} },
     { MODKEY,             XK_l,      setmfact,       {.f = +0.05} },
     { MODKEY,             XK_grave,  zoom,           {0}          },
@@ -183,14 +189,39 @@ static const Key keys[] = {
     { MODKEY | ShiftMask, XK_comma,  tagmon,         {.i = -1}    },
     { MODKEY | ShiftMask, XK_period, tagmon,         {.i = +1}    },
 
+    /* remove inc/dec master: i don't use it, takes up keybinding slots */
+    { MODKEY, XK_o, incnmaster, {.i = +1} },
+    { MODKEY, XK_p, incnmaster, {.i = -1} },
+
+    /* patches */
     // awesomebar patch
     { MODKEY,             XK_r, hide,    {0} },
-    { MODKEY,             XK_t, showall, {0} },
-    { MODKEY | ShiftMask, XK_t, show,    {0} },
+    { MODKEY | ShiftMask, XK_r, showall, {0} },
+    //{ MODKEY | ShiftMask, XK_t, show,    {0} },
 
+    { MODKEY,             XK_j, focusstackvis, {.i = +1} },
+    { MODKEY,             XK_k, focusstackvis, {.i = -1} },
+    { MODKEY | ShiftMask, XK_j, focusstackhid, {.i = +1} },
+    { MODKEY | ShiftMask, XK_k, focusstackhid, {.i = -1} },
+
+    // togglewin patch
+    { MODKEY, XK_m, togglewin, {0} },
+    
+    /* custom patches
+     * by AKAI :)
+     */
+
+    // 4chan sig stop/cont idea
+    // PENDING TO MAKE MORE READABLE
+    { MODKEY | ShiftMask, XK_r, spawn, SHCMD("wid=$(xdotool getwindowfocus); pid=$(xprop -id $wid _NET_WM_PID | awk -F' = ' '{print $2}'); test -n \"$pid\" && kill -STOP $pid") },
+    { MODKEY | ShiftMask, XK_t, spawn, SHCMD("wid=$(xdotool getwindowfocus); pid=$(xprop -id $wid _NET_WM_PID | awk -F' = ' '{print $2}'); test -n \"$pid\" && kill -CONT $pid") },
     
     // layout switching
-    { MODKEY, XK_4, spawn, SHCMD("~/scripts/layoutswitch.sh") }
+    // PENDING TO INTEGRATE IN DWM
+    { MODKEY, XK_4, spawn, SHCMD("~/suckless/scripts/layoutswitch.sh") },
+
+    // shader wallpaper
+    { MODKEY | ShiftMask, XK_grave, spawn, SHCMD("~/suckless/scripts/shader-switch.sh") }
 };
 
 /* button definitions */
