@@ -196,7 +196,7 @@ static const Key keys[] = {
     /* patches */
     // awesomebar patch
     { MODKEY,             XK_r, hide,    {0} },
-    { MODKEY | ShiftMask, XK_r, showall, {0} },
+    { MODKEY,             XK_t, showall, {0} },
     //{ MODKEY | ShiftMask, XK_t, show,    {0} },
 
     { MODKEY,             XK_j, focusstackvis, {.i = +1} },
