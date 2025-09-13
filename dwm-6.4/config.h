@@ -116,31 +116,43 @@ static const char *dmenucmd[] = {
         { MODKEY | ControlMask | ShiftMask, KEY, toggletag,  {.ui = 1 << TAG} },
 
 // customize your programs here!
-#define SHELL "dash"
-
-#define BROWSER    "zen" 
-#define BROWSER_ENV "MOZ_USE_XINPUT2=1" // "MOZ_USE_XINPUT2=1" allows for native xinput touchpad usage on firefox/-based browsers
-
+#define SHELL    "dash"
 #define TERMINAL "ghostty"
-#define DISCORD  "equibop"
-#define MUSIC    "youtube-music"
-#define TORRENT  "deluge"
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
+#define BROWSER     "zen" 
+#define BROWSER_ENV "MOZ_USE_XINPUT2=1" // "MOZ_USE_XINPUT2=1" allows for native xinput touchpad usage on firefox/-based browsers
+#define TORRENT     "deluge"
+
+#define DISCORD "equibop"
+#define MUSIC   "youtube-music"
+
+#define GAME_Z      "Hollow\\ Knight"
+#define GAME_Z_PATH "~/Games/Hollow_Knight/start.sh"
+
+#define GAME_X      "DDNet"
+#define GAME_X_PATH "~/Games/t-client/DDNet"
+
+/* HELPER MACROS */
+// helper for spawning shell commands in the pre dwm-5.0 fashion
 #define SHCMD(cmd) { .v = (const char *[]) {SHELL, "-c", cmd, NULL} }
+
+// helper to quickly killall any program
+#define KILLALLCMD(app) SHCMD("killall " app)
 
 // program pointers
 static const char *browsercmd[] = { SHELL, "-c", BROWSER_ENV " " BROWSER, NULL }; 
-
-static const char *termcmd[]    = { TERMINAL, NULL };
-static const char *discordcmd[] = { DISCORD,  NULL };
-static const char *musiccmd[]   = { MUSIC,    NULL };
-static const char *torrentcmd[] = { TORRENT,  NULL };
+static const char *termcmd[]    = { TERMINAL,    NULL };
+static const char *discordcmd[] = { DISCORD,     NULL };
+static const char *musiccmd[]   = { MUSIC,       NULL };
+static const char *torrentcmd[] = { TORRENT,     NULL };
+static const char *gamezcmd[]   = { GAME_Z_PATH, NULL };
+static const char *gamexcmd[]   = { GAME_X_PATH, NULL };
 
 /* bindkeys */
 static const Key keys[] = {
     // workspaces [6]
-    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_q, 3) TAGKEYS(XK_w, 4) TAGKEYS(XK_e, 5)
+    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2)
+    TAGKEYS(XK_q, 3) TAGKEYS(XK_w, 4) TAGKEYS(XK_e, 5)
 
     /* the basics */
     // basic wm functionality
@@ -153,28 +165,28 @@ static const Key keys[] = {
     { MODKEY | ShiftMask, XK_Return, quit, {0} }, // quit w
 
     // basic program binds
-    { MODKEY,             XK_d, spawn, {.v = termcmd }            },
-    { MODKEY | ShiftMask, XK_d, spawn, SHCMD("killall " TERMINAL) },
+    { MODKEY,             XK_d, spawn, {.v = termcmd}       },
+    { MODKEY | ShiftMask, XK_d, spawn, KILLALLCMD(TERMINAL) },
 
-    { MODKEY,             XK_a, spawn, {.v = browsercmd }        },
-    { MODKEY | ShiftMask, XK_a, spawn, SHCMD("killall " BROWSER) },
+    { MODKEY,             XK_a, spawn, {.v = browsercmd}   },
+    { MODKEY | ShiftMask, XK_a, spawn, KILLALLCMD(BROWSER) },
 
     // other program binds
-    { MODKEY,             XK_s, spawn, {.v = discordcmd }        },
-    { MODKEY | ShiftMask, XK_s, spawn, SHCMD("killall " DISCORD) },
+    { MODKEY,             XK_s, spawn, {.v = discordcmd}   },
+    { MODKEY | ShiftMask, XK_s, spawn, KILLALLCMD(DISCORD) },
 
-    { MODKEY,             XK_c, spawn, {.v = musiccmd }        },
-    { MODKEY | ShiftMask, XK_c, spawn, SHCMD("killall " MUSIC) },
+    { MODKEY,             XK_c, spawn, {.v = musiccmd}   },
+    { MODKEY | ShiftMask, XK_c, spawn, KILLALLCMD(MUSIC) },
 
-    { MODKEY,             XK_v, spawn, {.v = torrentcmd}         },
-    { MODKEY | ShiftMask, XK_v, spawn, SHCMD("killall " TORRENT) },
+    { MODKEY,             XK_v, spawn, {.v = torrentcmd}   },
+    { MODKEY | ShiftMask, XK_v, spawn, KILLALLCMD(TORRENT) },
 
     // gaming
-    { MODKEY,             XK_z, spawn, SHCMD("~/Games/Hollow_Knight/start.sh")   },
-    { MODKEY | ShiftMask, XK_z, spawn, SHCMD("killall Hollow\\ Knight")          },
+    { MODKEY,             XK_z, spawn, {.v = gamezcmd}    },
+    { MODKEY | ShiftMask, XK_z, spawn, KILLALLCMD(GAME_Z) },
 
-    { MODKEY,             XK_x, spawn, SHCMD("~/Games/t-client/DDNet") },
-    { MODKEY | ShiftMask, XK_x, spawn, SHCMD("killall DDNet")          },
+    { MODKEY,             XK_x, spawn, {.v = gamexcmd}    },
+    { MODKEY | ShiftMask, XK_x, spawn, KILLALLCMD(GAME_X) },
 
     // window handling
     { MODKEY,             XK_h,      setmfact,       {.f = -0.05} },
