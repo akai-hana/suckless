@@ -1,33 +1,26 @@
 /* akai's custom config */
 
 /* APPEARANCE */
-// windows
 static const unsigned int borderpx = 4;  // border pixel of windows
 static const unsigned int snap     = 32; // snap pixel
 static const int showbar           = 1;  // 0 means no bar
 static const int topbar            = 0;  // 0 means bottom bar
 
-// font
+#define MAIN_FONT "Fira Code Retina:size=10" // regular bar font
+
 static const char *fonts[] = {
-    "Fira Code Retina:size=10",
-    "Noto Sans CJK JP Medium:size=10"
+    MAIN_FONT,
+    "Noto Sans CJK JP Medium:size=10" // japanese workspace characters
 };
 
-static const char dmenufont[] = {
-    "Fira Code Retina:size=10"
-};
-
-// alpha patch
-#define OPAQUE 0xffU
-static const unsigned int baralpha    = 0xb0;   // bar background alpha (0x00..0xff)
-static const unsigned int borderalpha = OPAQUE; // border alpha
+static const char dmenufont[] = MAIN_FONT;
 
 // colorscheme
 static const char col_gray1[]  = "#0d0d14";
 static const char col_gray2[]  = "#52263e";
 static const char col_gray3[]  = "#bbbbbb";
 static const char col_gray4[]  = "#eeeeee";
-static const char col_cyan[]   = "#ac3232"; /* focused color */
+static const char col_cyan[]   = "#ac3232"; // focused color
 
 static const char *colors[][3] = {
     /*               fg         bg         border    */
@@ -35,17 +28,22 @@ static const char *colors[][3] = {
     [SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
     [SchemeHid]  = { col_gray4, col_gray2, col_cyan  },
 };
+
 // alpha patch
+#define OPAQUE 0xffU
+static const unsigned int baralpha    = 0xb0;   // bar background alpha (0x00..0xff)
+static const unsigned int borderalpha = OPAQUE; // border alpha
+
 /*        fg,          bg,       border */
 static const unsigned int alphas[][3] = {
 	{ borderalpha, baralpha, OPAQUE }
 };
 
 /* tagging */
-// workspace indicators
+// workspace icons
 static const char *tags[] = {"贖", "罪", "へ", "の", "途", "上"};
 
-// workspace redirects
+// auto-workspace on spawn
 static const Rule rules[] = {
     /* class           instance title tags   mask isfloating monitor */
     // 1
@@ -80,7 +78,7 @@ static const Rule rules[] = {
     { NULL,            "deluge", NULL, 1  <<  5,   0,         -1 },
 };
 
-/* layout(s) */
+// layout(s)
 static const float mfact        = 0.5; // factor of master area size [0.05..0.95]
 static const int nmaster        = 1;   // number of clients in master area
 static const int resizehints    = 1;   // 1 means respect size hints in tiled resizals
@@ -96,6 +94,17 @@ static const Layout layouts[] = {
     { "[M]",      monocle },
 };
 
+/* placeholders */
+// component of dmenucmd, manipulated at spawn
+static char dmenumon[1] = "0"; // [n] -> monitor buffer size
+
+// dmenu
+static const char *dmenucmd[] = {
+    "dmenu_run", "-b", "-m",
+    dmenumon, "-fn", dmenufont, "-nb",
+    col_gray1, "-nf", col_gray3,  "-sb", col_cyan, "-sf", col_gray4, NULL
+};
+
 /* key definitions */
 #define MODKEY Mod4Mask // Mod3Mask == Alt; Mod4Mask == Super 
 
@@ -106,30 +115,22 @@ static const Layout layouts[] = {
         { MODKEY | ShiftMask,               KEY, tag,        {.ui = 1 << TAG} }, \
         { MODKEY | ControlMask | ShiftMask, KEY, toggletag,  {.ui = 1 << TAG} },
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char *[]) {"/bin/dash", "-c", cmd, NULL} }
-
-/* commands */
-static char dmenumon[2] = "0"; // component of dmenucmd, manipulated in spawn()
-
-/* placeholders */
-// dmenu
-static const char *dmenucmd[] = {
-    "dmenu_run", "-b", "-m",
-    dmenumon, "-fn", dmenufont, "-nb",
-    col_gray1, "-nf", col_gray3,  "-sb", col_cyan, "-sf", col_gray4, NULL
-};
-
 // customize your programs here!
+#define SHELL "dash"
+
 #define BROWSER    "zen" 
-#define BROWSERENV "MOZ_USE_XINPUT2=1"
+#define BROWSER_ENV "MOZ_USE_XINPUT2=1" // "MOZ_USE_XINPUT2=1" allows for native xinput touchpad usage on firefox/-based browsers
 
 #define TERMINAL "ghostty"
 #define DISCORD  "equibop"
 #define MUSIC    "youtube-music"
 #define TORRENT  "deluge"
 
-static const char *browsercmd[] = { "dash", "-c", BROWSERENV " " BROWSER, NULL }; // MOZ_USE_XINPUT2 var allows for native xinput touchpad usage
+/* helper for spawning shell commands in the pre dwm-5.0 fashion */
+#define SHCMD(cmd) { .v = (const char *[]) {SHELL, "-c", cmd, NULL} }
+
+// program pointers
+static const char *browsercmd[] = { SHELL, "-c", BROWSER_ENV " " BROWSER, NULL }; 
 
 static const char *termcmd[]    = { TERMINAL, NULL };
 static const char *discordcmd[] = { DISCORD,  NULL };
@@ -168,7 +169,7 @@ static const Key keys[] = {
     { MODKEY,             XK_v, spawn, {.v = torrentcmd}         },
     { MODKEY | ShiftMask, XK_v, spawn, SHCMD("killall " TORRENT) },
 
-    // peak gaming
+    // gaming
     { MODKEY,             XK_z, spawn, SHCMD("~/Games/Hollow_Knight/start.sh")   },
     { MODKEY | ShiftMask, XK_z, spawn, SHCMD("killall Hollow\\ Knight")          },
 
@@ -189,15 +190,14 @@ static const Key keys[] = {
     { MODKEY | ShiftMask, XK_comma,  tagmon,         {.i = -1}    },
     { MODKEY | ShiftMask, XK_period, tagmon,         {.i = +1}    },
 
-    /* remove inc/dec master: i don't use it, takes up keybinding slots */
-    { MODKEY, XK_o, incnmaster, {.i = +1} },
-    { MODKEY, XK_p, incnmaster, {.i = -1} },
+    // inc/dec master
+    { MODKEY, XK_u, incnmaster, {.i = +1} },
+    { MODKEY, XK_i, incnmaster, {.i = -1} },
 
-    /* patches */
+    /* added patches */
     // awesomebar patch
     { MODKEY,             XK_r, hide,    {0} },
     { MODKEY,             XK_t, showall, {0} },
-    //{ MODKEY | ShiftMask, XK_t, show,    {0} },
 
     { MODKEY,             XK_j, focusstackvis, {.i = +1} },
     { MODKEY,             XK_k, focusstackvis, {.i = -1} },
@@ -208,14 +208,30 @@ static const Key keys[] = {
     { MODKEY, XK_m, togglewin, {0} },
     
     /* custom patches
-     * by AKAI :)
-     */
+     * by AKAI :)  */
 
     // 4chan sig stop/cont idea
-    // PENDING TO MAKE MORE READABLE
-    { MODKEY | ShiftMask, XK_r, spawn, SHCMD("wid=$(xdotool getwindowfocus); pid=$(xprop -id $wid _NET_WM_PID | awk -F' = ' '{print $2}'); test -n \"$pid\" && kill -STOP $pid") },
-    { MODKEY | ShiftMask, XK_t, spawn, SHCMD("wid=$(xdotool getwindowfocus); pid=$(xprop -id $wid _NET_WM_PID | awk -F' = ' '{print $2}'); test -n \"$pid\" && kill -CONT $pid") },
     
+    { MODKEY | ShiftMask, XK_r, spawn, SHCMD("~/suckless/scripts/sigstop-focused.sh") },
+    { MODKEY | ShiftMask, XK_t, spawn, SHCMD("~/suckless/scripts/sigcont-focused.sh") },
+
+
+    /*
+    { MODKEY | ShiftMask, XK_r, spawn, SHCMD(
+        "wid=$(xdotool getwindowfocus); "
+        "pid=$(xprop -id $wid _NET_WM_PID | awk -F' = ' '{print $2}'); "
+        "test -n \"$pid\" && kill -STOP $pid"
+        )
+    },
+
+    { MODKEY | ShiftMask, XK_t, spawn, SHCMD(
+        "wid=$(xdotool getwindowfocus); "
+        "pid=$(xprop -id $wid _NET_WM_PID | awk -F' = ' '{print $2}'); "
+        "test -n \"$pid\" && kill -CONT $pid"
+        )
+    },
+    */
+
     // layout switching
     // PENDING TO INTEGRATE IN DWM
     { MODKEY, XK_4, spawn, SHCMD("~/suckless/scripts/layoutswitch.sh") },

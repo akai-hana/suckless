@@ -1,4 +1,6 @@
 #!/bin/bash
+# bash is necessary for arrays; don't change it to dash
+
 # STATE=1
 # grab the number off line 2
 state=$(sed -n '2s/[^0-9]*\([0-9]\+\).*/\1/p' "$0")
