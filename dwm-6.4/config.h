@@ -3,17 +3,18 @@
 /* APPEARANCE */
 
 // window & bar settings
-static const unsigned int borderpx = 4;   // border pixel of windows
-static const unsigned int snap     = 32;  // snap pixel
-static const int showbar           = 1;   // 0 means no bar
-static const int topbar            = 0;   // 0 means bottom bar
+static const unsigned char borderpx = 4;   // border pixel of windows
+static const unsigned char snap     = 32;  // snap pixel
+static const bool showbar           = true;
+static const bool topbar            = false;
 
 // fonts
 #define MAIN_FONT "Fira Code Retina:size=10"
+#define JAP_FONT  "Noto Sans CJK JP Medium:size=10" // japanese workspace characters
 
 static const char *fonts[] = {
     MAIN_FONT,
-    "Noto Sans CJK JP Medium:size=10"  // japanese workspace characters
+    JAP_FONT
 };
 
 static const char dmenufont[] = MAIN_FONT;
@@ -70,28 +71,30 @@ static const Rule rules[] = {
     { NULL, "com.github.th_ch.youtube_music", NULL, 1 << 2, 0, -1 },
     
     // workspace 4: games
-    { "java",           NULL, NULL, 1 << 3, 0, -1 },
-    { "PrismLauncher",  NULL, NULL, 1 << 3, 0, -1 },
-    { "DDNet",          NULL, NULL, 1 << 3, 0, -1 },
+    { "osu!",          NULL, NULL, 1 << 3, 0, -1 },
+    { "DDNet",         NULL, NULL, 1 << 3, 0, -1 },
+    { "java",          NULL, NULL, 1 << 3, 0, -1 },
+    { "Hollow Knight", NULL, NULL, 1 << 3, 0, -1 },
     
     // workspace 5: development
     { "emacs", NULL, NULL, 1 << 4, 0, -1 },
     { "Emacs", NULL, NULL, 1 << 4, 0, -1 },
     
     // workspace 6: utilities
-    { "Prismlauncher", NULL, NULL, 1 << 5, 0, -1 },
-    { "corectrl",      NULL, NULL, 1 << 5, 0, -1 },
-    { "qbittorrent",   NULL, NULL, 1 << 5, 0, -1 },
-    { "Deluge",        NULL, NULL, 1 << 5, 0, -1 },
-    { NULL,        "deluge", NULL, 1 << 5, 0, -1 },
+    { "Prismlauncher", NULL,     NULL, 1 << 5, 0, -1 },
+    { "corectrl",      NULL,     NULL, 1 << 5, 0, -1 },
+    { "qbittorrent",   NULL,     NULL, 1 << 5, 0, -1 },
+    { "Deluge",        NULL,     NULL, 1 << 5, 0, -1 },
+    { NULL,            "deluge", NULL, 1 << 5, 0, -1 },
+    { "PrismLauncher", NULL,     NULL, 1 << 5, 0, -1 },
 };
 
 /* LAYOUTS */
 
 static const float mfact        = 0.5;  // factor of master area size [0.05..0.95]
-static const int nmaster        = 1;    // number of clients in master area
-static const int resizehints    = 1;    // respect size hints in tiled resizals
-static const int lockfullscreen = 0;    // force focus on fullscreen window
+static const char nmaster        = 1;    // number of clients in master area
+static const bool resizehints    = true;    // respect size hints in tiled resizals
+static const bool lockfullscreen = false;    // force focus on fullscreen window
 
 static const Layout layouts[] = {
     // symbol  arrange function
@@ -113,8 +116,8 @@ static const Layout layouts[] = {
 #define TORRENT "deluge"
 
 // games
-#define GAME_Z      "osu-lazer"
-#define GAME_Z_PATH "osu-lazer"
+#define GAME_Z      "osu!"
+#define GAME_Z_PATH "/home/akai/scripts/osu.sh"
 #define GAME_X      "DDNet"
 #define GAME_X_PATH "/home/akai/Games/t-client/DDNet"
 #define GAME_C      "Hollow\\ Knight"

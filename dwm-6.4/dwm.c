@@ -22,6 +22,7 @@
  */
 #include <errno.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <locale.h>
 #include <signal.h>
 #include <stdarg.h>
@@ -93,10 +94,12 @@ struct Client {
 	float mina, maxa;
 	int x, y, w, h;
 	int oldx, oldy, oldw, oldh;
-	int basew, baseh, incw, inch, maxw, maxh, minw, minh, hintsvalid;
+	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
+	bool hintsvalid;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
+	bool isfixed, isfloating, isurgent, neverfocus, isfullscreen;
+	bool oldstate;
 
 	Client *swallower;
 	Client *swallowed;
@@ -124,8 +127,8 @@ typedef struct Pertag Pertag;
 struct Monitor {
 	char ltsymbol[16];
 	float mfact;
-	int nmaster;
-	int num;
+	char nmaster;
+	char num;
 	int by;               /* bar geometry */
 	int btw;              /* width of tasks portion of bar */
 	int bt;               /* number of tasks */
@@ -134,8 +137,8 @@ struct Monitor {
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
-	int showbar;
-	int topbar;
+	bool showbar;
+	bool topbar;
 	int hidsel;
 	Client *clients;
 	Client *sel;
@@ -163,7 +166,7 @@ typedef struct SwallowDef {
 
 /* function declarations */
 static void applyrules(Client *c);
-static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
+static int applysizehints(Client *c, int *x, int *y, int *w, int *h, bool interact);
 static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
 static void attach(Client *c);
@@ -190,7 +193,7 @@ static void focusin(XEvent *e);
 static void focusmon(const Arg *arg);
 static void focusstackvis(const Arg *arg);
 static void focusstackhid(const Arg *arg);
-static void focusstack(int inc, int vis);
+static void focusstack(char inc, bool vis);
 static Atom getatomprop(Client *c, Atom prop);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
@@ -213,7 +216,7 @@ static void pop(Client *c);
 static void propertynotify(XEvent *e);
 static void quit(const Arg *arg);
 static Monitor *recttomon(int x, int y, int w, int h);
-static void resize(Client *c, int x, int y, int w, int h, int interact);
+static void resize(Client *c, int x, int y, int w, int h, bool interact);
 static void resizeclient(Client *c, int x, int y, int w, int h);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
@@ -223,11 +226,11 @@ static int sendevent(Client *c, Atom proto);
 static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
-static void setfullscreen(Client *c, int fullscreen);
+static void setfullscreen(Client *c, bool fullscreen);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setup(void);
-static void seturgent(Client *c, int urg);
+static void seturgent(Client *c, bool urg);
 static void showall(const Arg *arg);
 static void showwin(Client *c);
 static void showhide(Client *c);
@@ -243,7 +246,7 @@ static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void togglewin(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
-static void unmanage(Client *c, int destroyed);
+static void unmanage(Client *c, bool destroyed);
 static void unmapnotify(XEvent *e);
 static void updatebarpos(Monitor *m);
 static void updatebars(void);
@@ -293,7 +296,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
 static Atom swallow_atom;
 static SwallowDef *swallowlist;
 static Atom wmatom[WMLast], netatom[NetLast];
-static int running = 1;
+static bool running = true;
 static Cur *cursor[CurLast];
 static Clr **scheme;
 static Display *dpy;
@@ -301,7 +304,7 @@ static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
 
-static int useargb = 0;
+static bool useargb = false;
 static Visual *visual;
 static int depth;
 static Colormap cmap;
@@ -359,9 +362,9 @@ applyrules(Client *c)
 }
 
 int
-applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
+applysizehints(Client *c, int *x, int *y, int *w, int *h, bool interact)
 {
-	int baseismin;
+	bool baseismin;
 	Monitor *m = c->mon;
 
 	/* set minimum possible */
@@ -689,7 +692,7 @@ configurenotify(XEvent *e)
 	Monitor *m;
 	Client *c;
 	XConfigureEvent *ev = &e->xconfigure;
-	int dirty;
+	bool dirty;
 
 	/* TODO: updategeom handling sucks, needs to be simplified */
 	if (ev->window == root) {
@@ -1024,7 +1027,7 @@ focusstackhid(const Arg *arg) {
 }
 
 void
-focusstack(int inc, int hid)
+focusstack(char inc, bool hid)
 {
 	Client *c = NULL, *i;
 	// if no client selected AND exclude hidden client; if client selected but fullscreened
@@ -1521,7 +1524,7 @@ recttomon(int x, int y, int w, int h)
 }
 
 void
-resize(Client *c, int x, int y, int w, int h, int interact)
+resize(Client *c, int x, int y, int w, int h, bool interact)
 {
 	if (applysizehints(c, &x, &y, &w, &h, interact))
 		resizeclient(c, x, y, w, h);
@@ -1695,7 +1698,7 @@ sendevent(Client *c, Atom proto)
 {
 	int n;
 	Atom *protocols;
-	int exists = 0;
+	bool exists = false;
 	XEvent ev;
 
 	if (XGetWMProtocols(dpy, c->win, &protocols, &n)) {
@@ -1728,7 +1731,7 @@ setfocus(Client *c)
 }
 
 void
-setfullscreen(Client *c, int fullscreen)
+setfullscreen(Client *c, bool fullscreen)
 {
 	if (fullscreen && !c->isfullscreen) {
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
@@ -1859,7 +1862,7 @@ setup(void)
 }
 
 void
-seturgent(Client *c, int urg)
+seturgent(Client *c, bool urg)
 {
 	XWMHints *wmh;
 
@@ -1993,7 +1996,8 @@ tile(Monitor *m)
 void
 togglebar(const Arg *arg)
 {
-	selmon->showbar = selmon->pertag->showbars[selmon->pertag->curtag] = !selmon->showbar;
+	selmon->showbar = !selmon->showbar;
+	selmon->pertag->showbars[selmon->pertag->curtag] = selmon->showbar;
 	updatebarpos(selmon);
 	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww, bh);
 	arrange(selmon);
@@ -2147,7 +2151,7 @@ deleteswallower(Client *c) {
 }
 
 void
-unmanage(Client *c, int destroyed)
+unmanage(Client *c, bool destroyed)
 {
 	if (last_hidden == c)
 	    last_hidden = NULL;
@@ -2264,7 +2268,7 @@ updateclientlist()
 int
 updategeom(void)
 {
-	int dirty = 0;
+	bool dirty = false;
 
 #ifdef XINERAMA
 	if (XineramaIsActive(dpy)) {
