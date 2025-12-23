@@ -10,17 +10,20 @@ my custom dwm build.
 + [backlight](https://dwm.suckless.org/patches/backlight/)
 + [amixer integration](https://dwm.suckless.org/patches/amixer-integration/)
 
+## other patches:
++ i manually patched the source code to use byte instead of int datatype wherever possible
+
 
 ### dependencies
-+ firacode nerd *(**extra/ttf-firacode-nerd** package on arch)*
-+ noto sans cjk (jp in particular) *(**world/noto-fonts-cjk** package on arch)*
-+ xres library for the better swallow patch *(**world/libxres** package on arch)*
-+ optionally, slstatus for a clock *(**aur/slstatus** package on arch)*, and my *~/scripts* dir with the scripts i use, for certain program launch binds (can be found in [my other dotfiles repo](https://github.com/akai-hana/dotfiles))
++ **firacode nerd fonts** for bar and dmenu
++ **noto sans cjk** for the workspace icons
++ **xres** for the better swallow patch
++ **xdotool** for the sigstop/sigcont bind functionality
++ **slstatus** for the clock and date
++ for any binds, my *~/scripts* dir with the scripts i use, for certain program launch binds, can be found in [my other dotfiles repo](https://github.com/akai-hana/dotfiles).
 
 ### theme
-> it just reads on your xresources.
-> 
-> generating a colorscheme with pywal works.
+> custom one based on milk outside a bag of milk.
 ***
 
 #### TO-DO
