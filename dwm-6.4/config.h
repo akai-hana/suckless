@@ -127,7 +127,7 @@ static const Layout layouts[] = {
 
 // games
 #define GAME_Z      "osu-lazer"
-#define GAME_Z_PATH EUDAIMONIA "/scripts/osu.sh"
+#define GAME_Z_PATH "/home/akai/eudaimonia/scripts/osu.sh"
 #define GAME_X      "DDNet"
 #define GAME_X_PATH HOME       "/Games/t-client/DDNet"
 #define GAME_C      "prismlauncher"
