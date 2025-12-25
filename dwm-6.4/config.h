@@ -111,18 +111,21 @@ static const Layout layouts[] = {
 #define SHELL     "sh"
 #define TERMINAL  "ghostty"
 // preloader
-#define DISTROBOX "distrobox-enter artix-dinit -- "
+// #define RUNTIME "distrobox-enter artix-dinit -- " // old distrobox setup
+#define RUNTIME "flatpak run " // simpler flatpaks
 
 // programs
 #define BROWSER      "firefox"
-#define DISCORD      "equibop"
+//#define DISCORD    "equibop"
+#define DISCORD      "org.equicord.equibop"
 #define DISCORD_PATH "electron"
-#define MUSIC        "youtube-music"
+//#define MUSIC      "youtube-music"
+#define MUSIC        "com.github.th_ch.youtube_music"
 #define TORRENT      "deluge"
 
 // games
-#define GAME_Z      "osu!"
-#define GAME_Z_PATH "/home/akai/scripts/osu.sh"
+#define GAME_Z      "osu-lazer"
+#define GAME_Z_PATH "/home/akai/.scripts/osu.sh"
 #define GAME_X      "DDNet"
 #define GAME_X_PATH "/home/akai/Games/t-client/DDNet"
 #define GAME_C      "prismlauncher"
@@ -175,8 +178,8 @@ static const char *dmenucmd[] = {
 // program pointers
 static const char *browsercmd[] = { SHELL, "-c", "MOZ_USE_XINPUT2=1 " BROWSER, NULL };  // native xinput touchpad
 static const char *termcmd[]    = { TERMINAL, NULL };
-static const char *discordcmd[] = { SHELL, "-c", DISTROBOX DISCORD,  NULL }; // must run with shell since they're 
-static const char *musiccmd[]   = { SHELL, "-c", DISTROBOX MUSIC,    NULL }; // flatpak prompts, not binaries
+static const char *discordcmd[] = { SHELL, "-c", RUNTIME DISCORD,  NULL }; // must run with shell since they're 
+static const char *musiccmd[]   = { SHELL, "-c", RUNTIME MUSIC,    NULL }; // distrobox prompts, not binaries
 static const char *torrentcmd[] = { TORRENT,  NULL };
 static const char *gamezcmd[]   = { GAME_Z_PATH, NULL };
 static const char *gamexcmd[]   = { GAME_X_PATH, NULL };
@@ -268,7 +271,7 @@ static const Key keys[] = {
 	{ MODKEY | ShiftMask, XK_t, spawn, SHCMD("~/suckless/scripts/sigcont-focused.sh") },  // resume
 
 	// webcam
-	{ MODKEY,             XK_5, spawn, SHCMD("~/scripts/webcam.sh") },
+	{ MODKEY,             XK_5, spawn, SHCMD("~/.scripts/webcam.sh") },
 	{ MODKEY | ShiftMask, XK_5, spawn, SHCMD("pkill ffplay") },
 
 	// randomly switch shader wallpaper
