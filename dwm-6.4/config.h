@@ -1,4 +1,6 @@
 /* akai's custom config */
+#define EUDAIMONIA "~/eudaimonia"
+#define HOME "/home/akai"
 
 /* APPEARANCE */
 
@@ -125,13 +127,14 @@ static const Layout layouts[] = {
 
 // games
 #define GAME_Z      "osu-lazer"
-#define GAME_Z_PATH "/home/akai/.scripts/osu.sh"
+#define GAME_Z_PATH EUDAIMONIA "/scripts/osu.sh"
 #define GAME_X      "DDNet"
-#define GAME_X_PATH "/home/akai/Games/t-client/DDNet"
+#define GAME_X_PATH HOME       "/Games/t-client/DDNet"
 #define GAME_C      "prismlauncher"
 #define GAME_C_PATH "prismlauncher"
+
 //#define GAME_C      "Hollow\\ Knight"
-//#define GAME_C_PATH "/home/akai/Games/Hollow_Knight/start.sh"
+//#define GAME_C_PATH HOME "/Games/Hollow_Knight/start.sh"
 
 /* HELPER MACROS */
 
@@ -267,15 +270,15 @@ static const Key keys[] = {
 	/* CUSTOM SCRIPTS */
 
 	// process control (sigstop/sigcont)
-	{ MODKEY | ShiftMask, XK_r, spawn, SHCMD("~/suckless/scripts/sigstop-focused.sh") },  // pause
-	{ MODKEY | ShiftMask, XK_t, spawn, SHCMD("~/suckless/scripts/sigcont-focused.sh") },  // resume
+	{ MODKEY | ShiftMask, XK_r, spawn, SHCMD(EUDAIMONIA "/suckless/scripts/sigstop-focused.sh") },  // pause
+	{ MODKEY | ShiftMask, XK_t, spawn, SHCMD(EUDAIMONIA "/suckless/scripts/sigcont-focused.sh") },  // resume
 
 	// webcam
-	{ MODKEY,             XK_5, spawn, SHCMD("~/.scripts/webcam.sh") },
+	{ MODKEY,             XK_5, spawn, SHCMD(EUDAIMONIA "/scripts/webcam.sh") },
 	{ MODKEY | ShiftMask, XK_5, spawn, SHCMD("pkill ffplay") },
 
 	// randomly switch shader wallpaper
-	{ MODKEY | ShiftMask, XK_grave, spawn, SHCMD("~/eudaimonia/shader-wallpaper/shadow/scripts/shader-switch.sh") },
+	{ MODKEY | ShiftMask, XK_grave, spawn, SHCMD(EUDAIMONIA "/shader-wallpaper/shadow/scripts/shader-switch.sh") },
 };
 
 /* MOUSE BINDINGS */
