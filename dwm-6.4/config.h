@@ -275,7 +275,7 @@ static const Key keys[] = {
 	{ MODKEY | ShiftMask, XK_5, spawn, SHCMD("pkill ffplay") },
 
 	// randomly switch shader wallpaper
-	{ MODKEY | ShiftMask, XK_grave, spawn, SHCMD("~/git/shader-wallpaper/shadow/scripts/shader-switch.sh") },
+	{ MODKEY | ShiftMask, XK_grave, spawn, SHCMD("~/eudaimonia/shader-wallpaper/shadow/scripts/shader-switch.sh") },
 };
 
 /* MOUSE BINDINGS */
