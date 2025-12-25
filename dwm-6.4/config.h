@@ -69,10 +69,10 @@ static const Rule rules[] = {
 	{ "electron", NULL, NULL, 1 << 1, 0, -1 },
 
 	// workspace 3: music
-	{ "youtube-music", NULL, NULL, 1 << 2, 0, -1 },
-	{ NULL, "youtube-music", NULL, 1 << 2, 0, -1 },
-	{ "com.github.th_ch.youtube_music", NULL, NULL, 1 << 2, 0, -1 },
-	{ NULL, "com.github.th_ch.youtube_music", NULL, 1 << 2, 0, -1 },
+	{ "youtube-music",                  NULL,                             NULL, 1 << 2, 0, -1 },
+	{ NULL,                             "youtube-music",                  NULL, 1 << 2, 0, -1 },
+	{ "com.github.th_ch.youtube_music", NULL,                             NULL, 1 << 2, 0, -1 },
+	{ NULL,                             "com.github.th_ch.youtube_music", NULL, 1 << 2, 0, -1 },
 
 	// workspace 4: games
 	{ "osu!",          NULL, NULL, 1 << 3, 0, -1 },
@@ -85,12 +85,13 @@ static const Rule rules[] = {
 	{ "Emacs", NULL, NULL, 1 << 4, 0, -1 },
 
 	// workspace 6: utilities
-	{ "Prismlauncher", NULL,     NULL, 1 << 5, 0, -1 },
-	{ "corectrl",      NULL,     NULL, 1 << 5, 0, -1 },
-	{ "qbittorrent",   NULL,     NULL, 1 << 5, 0, -1 },
-	{ "Deluge",        NULL,     NULL, 1 << 5, 0, -1 },
-	{ NULL,            "deluge", NULL, 1 << 5, 0, -1 },
-	{ "PrismLauncher", NULL,     NULL, 1 << 5, 0, -1 },
+	{ "Prismlauncher",       NULL,     NULL, 1 << 5, 0, -1 },
+	{ "corectrl",            NULL,     NULL, 1 << 5, 0, -1 },
+	{ "qbittorrent",         NULL,     NULL, 1 << 5, 0, -1 },
+	{ "Deluge",              NULL,     NULL, 1 << 5, 0, -1 },
+	{ NULL,                  "deluge", NULL, 1 << 5, 0, -1 },
+	{ "PrismLauncher",       NULL,     NULL, 1 << 5, 0, -1 },
+	{ "OpenTabletDriver.UX", NULL,     NULL, 1 << 5, 0, -1 },
 };
 
 /* LAYOUTS */
