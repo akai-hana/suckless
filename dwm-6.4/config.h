@@ -41,7 +41,7 @@ static const unsigned int baralpha    = 0xb0;    // bar background alpha
 static const unsigned int borderalpha = OPAQUE;  // border alpha
 
 static const unsigned int alphas[][3] = {
-	//      fg            bg          border
+	// fg          bg        border
 	{ borderalpha, baralpha, OPAQUE }
 };
 
@@ -182,8 +182,8 @@ static const char *dmenucmd[] = {
 // program pointers
 static const char *browsercmd[] = { SHELL, "-c", "MOZ_USE_XINPUT2=1 " BROWSER, NULL };  // native xinput touchpad
 static const char *termcmd[]    = { TERMINAL, NULL };
-static const char *discordcmd[] = { SHELL, "-c", RUNTIME DISCORD,  NULL }; // must run with shell since they're 
-static const char *musiccmd[]   = { SHELL, "-c", RUNTIME MUSIC,    NULL }; // distrobox prompts, not binaries
+static const char *discordcmd[] = { SHELL, "-c", RUNTIME DISCORD,  NULL };
+static const char *musiccmd[]   = { SHELL, "-c", RUNTIME MUSIC,    NULL };
 static const char *torrentcmd[] = { TORRENT,  NULL };
 static const char *gamezcmd[]   = { GAME_Z_PATH, NULL };
 static const char *gamexcmd[]   = { GAME_X_PATH, NULL };
@@ -192,19 +192,20 @@ static const char *gameccmd[]   = { GAME_C_PATH, NULL };
 static const Key keys[] = {
 	/* WORKSPACES */
 
-	TAGKEYS(XK_1, 0)  // 贖
-	TAGKEYS(XK_2, 1)  // 罪
-	TAGKEYS(XK_3, 2)  // へ
-	TAGKEYS(XK_q, 3)  // の
-	TAGKEYS(XK_w, 4)  // 途
-	TAGKEYS(XK_e, 5)  // 上
+	TAGKEYS(XK_1, 0) // 贖
+	TAGKEYS(XK_2, 1) // 罪
+	TAGKEYS(XK_3, 2) // へ
+	TAGKEYS(XK_q, 3) // の
+	TAGKEYS(XK_w, 4) // 途
+	TAGKEYS(XK_e, 5) // 上
 
 	/* WINDOW MANAGER */
 
+  //{ MODKEY | ShiftMask, XK_Return, quit,          {0} },  // quit dwm (GNU-style)
 	{ MODKEY | ShiftMask, XK_Return, spawn,         SHCMD("pkill -9 Xorg") }, // quit dwm, BSD-utils style
-										  //{ MODKEY | ShiftMask, XK_Return, quit,          {0} },  // quit dwm (GNU-style)
 	{ MODKEY,             XK_n,      togglebar,     {0} },
-	{ MODKEY,             XK_Tab,    view,          {0} },  // previous workspace
+	//{ MODKEY,           XK_Tab,    view,          {0} }, // previous workspace
+	{ MODKEY,             XK_Tab,    zoom,          {0} }, // swap with master
 	{ MODKEY | ShiftMask, XK_Tab,    spawn,         {.v = dmenucmd} },
 
 	// window control
@@ -222,7 +223,6 @@ static const Key keys[] = {
 	{ MODKEY,             XK_l,      setmfact,       {.f = +0.05} },  // grow master
 	{ MODKEY,             XK_u,      incnmaster,     {.i = +1} },     // more masters
 	{ MODKEY,             XK_i,      incnmaster,     {.i = -1} },     // fewer masters
-	{ MODKEY,             XK_grave,  zoom,           {0} },           // swap with master
 	{ MODKEY,             XK_space,  setlayout,      {0} },           // cycle layout
 	{ MODKEY | ShiftMask, XK_space,  togglefloating, {0} },
 
@@ -278,8 +278,9 @@ static const Key keys[] = {
 	{ MODKEY,             XK_5, spawn, SHCMD(EUDAIMONIA "/scripts/webcam.sh") },
 	{ MODKEY | ShiftMask, XK_5, spawn, SHCMD("pkill ffplay") },
 
-	// randomly switch shader wallpaper
-	{ MODKEY | ShiftMask, XK_grave, spawn, SHCMD(EUDAIMONIA "/shader-wallpaper/shadow/scripts/shader-switch.sh") },
+	{ MODKEY,             XK_grave, spawn, SHCMD(EUDAIMONIA "/shader-wallpaper/shadow/scripts/shader-switch.sh") },
+	// switch shader wallpaper
+	{ MODKEY | ShiftMask, XK_grave, spawn, SHCMD(EUDAIMONIA "/shader-wallpaper/shadow/scripts/shader-stop.sh && pkill picom") },
 };
 
 /* MOUSE BINDINGS */
