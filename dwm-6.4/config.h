@@ -119,11 +119,10 @@ static const Layout layouts[] = {
 
 // programs
 #define BROWSER      "firefox"
-//#define DISCORD    "equibop"
 #define DISCORD      "org.equicord.equibop"
 #define DISCORD_PATH "equibop"
-//#define MUSIC      "youtube-music"
 #define MUSIC        "com.github.th_ch.youtube_music"
+#define MUSIC_PATH   "youtube-music"
 #define TORRENT      "deluge"
 
 // games
@@ -256,7 +255,7 @@ static const Key keys[] = {
 	{ MODKEY | ShiftMask, XK_b, spawn, PKILLCMD(TORRENT) },
 
 	{ MODKEY,             XK_v, spawn, {.v = musiccmd}   },
-	{ MODKEY | ShiftMask, XK_v, spawn, PKILLCMD(MUSIC) },
+	{ MODKEY | ShiftMask, XK_v, spawn, PKILLCMD(MUSIC_PATH) },
 
 	// games
 	{ MODKEY,             XK_z, spawn, {.v = gamezcmd}    },  // osu!
