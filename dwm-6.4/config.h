@@ -121,7 +121,7 @@ static const Layout layouts[] = {
 #define BROWSER      "firefox"
 //#define DISCORD    "equibop"
 #define DISCORD      "org.equicord.equibop"
-#define DISCORD_PATH "electron"
+#define DISCORD_PATH "equibop"
 //#define MUSIC      "youtube-music"
 #define MUSIC        "com.github.th_ch.youtube_music"
 #define TORRENT      "deluge"
