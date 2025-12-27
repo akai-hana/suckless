@@ -1,22 +1,20 @@
 /* akai's custom config */
-#define EUDAIMONIA "~/eudaimonia"
-#define HOME "/home/akai"
-
-/* APPEARANCE */
+#define EUDAIMONIA "~/eudaimonia" // the directory where all my personal system utilities are located
+#define HOME "/home/akai"         // since theres no home expansion
 
 // window & bar settings
-static const unsigned char borderpx = 4;   // border pixel of windows
-static const unsigned char snap     = 32;  // snap pixel
+static const unsigned char borderpx = 4;     // border pixel of windows
+static const unsigned char snap     = 32;    // snap pixel
 static const bool showbar           = true;
-static const bool topbar            = false;
+static const bool topbar            = false; // bottom is optimal on a laptop
 
 // fonts
 #define MAIN_FONT "FiraCode Nerd Font Ret:size=10"
-#define JAP_FONT  "Noto Sans CJK JP Medium:size=10" // japanese workspace characters
+#define JAP_FONT  "Noto Sans CJK JP Medium:size=10"
 
 static const char *fonts[] = {
-	MAIN_FONT,
-	JAP_FONT
+	MAIN_FONT, // main text
+	JAP_FONT   // workspace icons
 };
 
 static const char dmenufont[] = MAIN_FONT;
@@ -38,7 +36,7 @@ static const char *colors[][3] = {
 // transparency (alpha patch)
 #define OPAQUE 0xffU
 static const unsigned int baralpha    = 0xb0;    // bar background alpha
-static const unsigned int borderalpha = OPAQUE;  // border alpha
+static const unsigned int borderalpha = 0xb0;  // border alpha
 
 static const unsigned int alphas[][3] = {
 	// fg          bg        border
@@ -47,8 +45,8 @@ static const unsigned int alphas[][3] = {
 
 /* WORKSPACES */
 
-//static const char *tags[] = {"贖", "罪", "へ", "の", "途", "上"}; // redemption
-static const char *tags[] = {"あ", "罪", "い", "は", "な", "つ", "ん", "で"}; // redemption
+// akai hana tsunde
+static const char *tags[] = {"あ", "か", "い", "は", "な", "つ", "ん", "で"}; // 8 in total
 
 /* WINDOW RULES */
 
@@ -125,6 +123,8 @@ static const Layout layouts[] = {
 #define MUSIC        "com.github.th_ch.youtube_music"
 #define MUSIC_PATH   "youtube-music"
 #define TORRENT      "deluge"
+#define STEAM        "flatpak run com.valvesoftware.Steam"
+#define STEAM_PATH   "steam"
 
 // games
 #define GAME_Z      "osu-lazer"
@@ -185,102 +185,105 @@ static const char *termcmd[]    = { TERMINAL, NULL };
 static const char *discordcmd[] = { SHELL, "-c", RUNTIME DISCORD,  NULL };
 static const char *musiccmd[]   = { SHELL, "-c", RUNTIME MUSIC,    NULL };
 static const char *torrentcmd[] = { TORRENT,  NULL };
+static const char *steamcmd[]   = { STEAM,  NULL };
 static const char *gamezcmd[]   = { GAME_Z_PATH, NULL };
 static const char *gamexcmd[]   = { GAME_X_PATH, NULL };
 static const char *gameccmd[]   = { GAME_C_PATH, NULL };
 
 static const Key keys[] = {
 	/* WORKSPACES */
-
-	TAGKEYS(XK_1, 0) // 贖
-	TAGKEYS(XK_2, 1) // 罪
-	TAGKEYS(XK_3, 2) // へ
-	TAGKEYS(XK_q, 3) // の
-	TAGKEYS(XK_w, 4) // 途
-	TAGKEYS(XK_e, 5) // 上
+	TAGKEYS(XK_1, 0) // あ
+	TAGKEYS(XK_2, 1) // か
+	TAGKEYS(XK_3, 2) // い
+	TAGKEYS(XK_4, 3) // は
+	TAGKEYS(XK_q, 4) // な
+	TAGKEYS(XK_w, 5) // つ
+	TAGKEYS(XK_e, 6) // ん
+	TAGKEYS(XK_r, 7) // で
 	
-	/* WINDOW MANAGER */
+	// awesomebar patch
+	{ MODKEY,             XK_grave,  hide,           {0} },
+	{ MODKEY | ShiftMask, XK_grave,  showall,        {0} },
 
-  //{ MODKEY | ShiftMask, XK_Return, quit,          {0} },  // quit dwm (GNU-style)
+	// *TAGKEYS
+	{ MODKEY,             XK_5,      view,           {.ui = ~0} }, // view all tags
+	{ MODKEY | ShiftMask, XK_5,      tag,            {.ui = ~0} }, // tag all
+
+	{ MODKEY,             XK_Tab,    zoom,          {0} },             // carousel
+	{ MODKEY | ShiftMask, XK_Tab,    spawn,         {.v = dmenucmd} }, // dmenu
+
+	// process control (sigstop/sigcont)
+	{ MODKEY,             XK_t, spawn, SHCMD(EUDAIMONIA "/suckless/scripts/sigstop-focused.sh") }, // pause
+	{ MODKEY | ShiftMask, XK_t, spawn, SHCMD(EUDAIMONIA "/suckless/scripts/sigcont-focused.sh") }, // resume
+
+	// start/switch shader
+	{ MODKEY,             XK_g, spawn, SHCMD(EUDAIMONIA "/shader-wallpaper/shadow/scripts/shader-switch.sh") },
+	// webcam
+	{ MODKEY | ShiftMask, XK_g, spawn, SHCMD(EUDAIMONIA "/scripts/webcam.sh") },
+
+	// stop shader
+	{ MODKEY,             XK_y, spawn, SHCMD(EUDAIMONIA "/shader-wallpaper/shadow/scripts/shader-stop.sh && pkill picom") },
+
+	/* APPLICATIONS */
+	{ MODKEY,             XK_d, spawn, {.v = termcmd }    },
+	{ MODKEY | ShiftMask, XK_d, spawn, PKILLCMD(TERMINAL) },
+
+	// TODO: standardize firefox pkill
+	{ MODKEY,             XK_a, spawn, {.v = browsercmd }   },
+	{ MODKEY | ShiftMask, XK_a, spawn, PKILLFIREFOX         },
+
+	{ MODKEY,             XK_s, spawn, {.v = discordcmd }     },
+	{ MODKEY | ShiftMask, XK_s, spawn, PKILLCMD(DISCORD_PATH) },
+
+	{ MODKEY,             XK_z, spawn, {.v = gamezcmd } }, // osu!
+	{ MODKEY | ShiftMask, XK_z, spawn, PKILLCMD(GAME_Z) },
+
+	{ MODKEY,             XK_x, spawn, {.v = gamexcmd}  }, // ddnet
+	{ MODKEY | ShiftMask, XK_x, spawn, PKILLCMD(GAME_X) },
+
+	// 
+	{ MODKEY,             XK_c, spawn, {.v = gameccmd}  }, // prism launcher
+	{ MODKEY | ShiftMask, XK_c, spawn, PKILLCMD(GAME_C) },
+
+	// youtube music
+	{ MODKEY,             XK_v, spawn, {.v = musiccmd }     },
+	{ MODKEY | ShiftMask, XK_v, spawn, PKILLCMD(MUSIC_PATH) },
+
+	// steam
+	{ MODKEY,             XK_b, spawn, {.v = steamcmd }  },
+	{ MODKEY | ShiftMask, XK_b, spawn, PKILLCMD(TORRENT) },
+
+	/* WINDOW MANAGER */
+  // { MODKEY | ShiftMask, XK_Return, quit,          {0} },                 // quit dwm (GNU-style)
 	{ MODKEY | ShiftMask, XK_Return, spawn,         SHCMD("pkill -9 Xorg") }, // quit dwm, BSD-utils style
 	{ MODKEY,             XK_n,      togglebar,     {0} },
-	//{ MODKEY,           XK_Tab,    view,          {0} }, // previous workspace
-	{ MODKEY,             XK_Tab,    zoom,          {0} }, // swap with master
-	{ MODKEY | ShiftMask, XK_Tab,    spawn,         {.v = dmenucmd} },
 
 	// window control
 	{ MODKEY,             XK_f,      togglefullscr, {0} },
 	{ MODKEY | ShiftMask, XK_f,      killclient,    {0} },
 
 	// focus & stack navigation
-	{ MODKEY,             XK_j,      focusstackvis, {.i = +1} },  // next visible
-	{ MODKEY,             XK_k,      focusstackvis, {.i = -1} },  // prev visible
-	{ MODKEY | ShiftMask, XK_j,      focusstackhid, {.i = +1} },  // next hidden
-	{ MODKEY | ShiftMask, XK_k,      focusstackhid, {.i = -1} },  // prev hidden
+	{ MODKEY,             XK_j,      focusstackvis, {.i = +1} }, // next visible
+	{ MODKEY,             XK_k,      focusstackvis, {.i = -1} }, // prev visible
+	{ MODKEY | ShiftMask, XK_j,      focusstackhid, {.i = +1} }, // next hidden
+	{ MODKEY | ShiftMask, XK_k,      focusstackhid, {.i = -1} }, // prev hidden
 
 	// layout manipulation
-	{ MODKEY,             XK_h,      setmfact,       {.f = -0.05} },  // shrink master
-	{ MODKEY,             XK_l,      setmfact,       {.f = +0.05} },  // grow master
-	{ MODKEY,             XK_u,      incnmaster,     {.i = +1} },     // more masters
-	{ MODKEY,             XK_i,      incnmaster,     {.i = -1} },     // fewer masters
-	{ MODKEY,             XK_space,  setlayout,      {0} },           // cycle layout
+	{ MODKEY,             XK_h,      setmfact,       {.f = -0.05} }, // shrink master
+	{ MODKEY,             XK_l,      setmfact,       {.f = +0.05} }, // grow master
+	{ MODKEY,             XK_u,      incnmaster,     {.i = +1} },    // more masters
+	{ MODKEY,             XK_i,      incnmaster,     {.i = -1} },    // fewer masters
+	{ MODKEY,             XK_space,  setlayout,      {0} },          // cycle layout
 	{ MODKEY | ShiftMask, XK_space,  togglefloating, {0} },
-
-	// awesomebar patch
-	{ MODKEY,             XK_r,      hide,           {0} },
-	{ MODKEY,             XK_t,      showall,        {0} },
 
 	// togglewin patch
 	{ MODKEY,             XK_m,      togglewin,      {0} },
 
 	// multi-monitor
-	{ MODKEY,             XK_4,      view,           {.ui = ~0} },  // view all tags
-	{ MODKEY | ShiftMask, XK_4,      tag,            {.ui = ~0} },  // tag all
 	{ MODKEY,             XK_comma,  focusmon,       {.i = -1} },
 	{ MODKEY,             XK_period, focusmon,       {.i = +1} },
 	{ MODKEY | ShiftMask, XK_comma,  tagmon,         {.i = -1} },
 	{ MODKEY | ShiftMask, XK_period, tagmon,         {.i = +1} },
-
-	/* APPLICATIONS */
-
-	{ MODKEY,             XK_d, spawn, {.v = termcmd}       },
-	{ MODKEY | ShiftMask, XK_d, spawn, PKILLCMD(TERMINAL) },
-
-	{ MODKEY,             XK_a, spawn, {.v = browsercmd}   },
-	{ MODKEY | ShiftMask, XK_a, spawn, PKILLFIREFOX },
-
-	{ MODKEY,             XK_s, spawn, {.v = discordcmd}   },
-	{ MODKEY | ShiftMask, XK_s, spawn, PKILLCMD(DISCORD_PATH) },
-
-	{ MODKEY,             XK_b, spawn, {.v = torrentcmd}   },
-	{ MODKEY | ShiftMask, XK_b, spawn, PKILLCMD(TORRENT) },
-
-	{ MODKEY,             XK_v, spawn, {.v = musiccmd}   },
-	{ MODKEY | ShiftMask, XK_v, spawn, PKILLCMD(MUSIC_PATH) },
-
-	// games
-	{ MODKEY,             XK_z, spawn, {.v = gamezcmd}    },  // osu!
-	{ MODKEY | ShiftMask, XK_z, spawn, PKILLCMD(GAME_Z) },
-
-	{ MODKEY,             XK_x, spawn, {.v = gamexcmd}    },  // ddnet
-	{ MODKEY | ShiftMask, XK_x, spawn, PKILLCMD(GAME_X) },
-
-	{ MODKEY,             XK_c, spawn, {.v = gameccmd}    },  // hollow knight
-	{ MODKEY | ShiftMask, XK_c, spawn, PKILLCMD(GAME_C) },
-
-	/* CUSTOM SCRIPTS */
-
-	// process control (sigstop/sigcont)
-	{ MODKEY | ShiftMask, XK_r, spawn, SHCMD(EUDAIMONIA "/suckless/scripts/sigstop-focused.sh") },  // pause
-	{ MODKEY | ShiftMask, XK_t, spawn, SHCMD(EUDAIMONIA "/suckless/scripts/sigcont-focused.sh") },  // resume
-
-	// webcam
-	{ MODKEY,             XK_5, spawn, SHCMD(EUDAIMONIA "/scripts/webcam.sh") },
-	{ MODKEY | ShiftMask, XK_5, spawn, SHCMD("pkill ffplay") },
-
-	{ MODKEY,             XK_grave, spawn, SHCMD(EUDAIMONIA "/shader-wallpaper/shadow/scripts/shader-switch.sh") },
-	// switch shader wallpaper
-	{ MODKEY | ShiftMask, XK_grave, spawn, SHCMD(EUDAIMONIA "/shader-wallpaper/shadow/scripts/shader-stop.sh && pkill picom") },
 };
 
 /* MOUSE BINDINGS */
