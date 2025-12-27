@@ -41,7 +41,7 @@ static const unsigned int borderalpha = OPAQUE;      // border alpha
 
 static const unsigned int alphas[][3] = {
 	// fg          bg        border
-	{ borderalpha, baralpha, borderalpha }
+	{ baralpha,    baralpha, borderalpha }
 };
 
 /* WORKSPACES */
