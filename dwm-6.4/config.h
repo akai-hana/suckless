@@ -47,7 +47,8 @@ static const unsigned int alphas[][3] = {
 
 /* WORKSPACES */
 
-static const char *tags[] = {"贖", "罪", "へ", "の", "途", "上"};
+//static const char *tags[] = {"贖", "罪", "へ", "の", "途", "上"}; // redemption
+static const char *tags[] = {"あ", "罪", "い", "は", "な", "つ", "ん", "で"}; // redemption
 
 /* WINDOW RULES */
 
@@ -197,7 +198,7 @@ static const Key keys[] = {
 	TAGKEYS(XK_q, 3) // の
 	TAGKEYS(XK_w, 4) // 途
 	TAGKEYS(XK_e, 5) // 上
-
+	
 	/* WINDOW MANAGER */
 
   //{ MODKEY | ShiftMask, XK_Return, quit,          {0} },  // quit dwm (GNU-style)
