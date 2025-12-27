@@ -35,12 +35,12 @@ static const char *colors[][3] = {
 
 // transparency (alpha patch)
 #define OPAQUE 0xffU
-static const unsigned int baralpha    = 0xb0;    // bar background alpha
-static const unsigned int borderalpha = 0xb0;  // border alpha
+static const unsigned int baralpha    = 0x00;  // bar background alpha
+static const unsigned int borderalpha = 0x00;  // border alpha
 
 static const unsigned int alphas[][3] = {
 	// fg          bg        border
-	{ borderalpha, baralpha, OPAQUE }
+	{ borderalpha, baralpha, borderalpha }
 };
 
 /* WORKSPACES */
