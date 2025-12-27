@@ -264,7 +264,7 @@ static Monitor *wintomon(Window w);
 static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
-static void xinitvisual();
+static void xinitvisual(void);
 static void zoom(const Arg *arg);
 static Client *last_hidden = NULL;
 
@@ -2252,7 +2252,7 @@ updatebarpos(Monitor *m)
 }
 
 void
-updateclientlist()
+updateclientlist(void)
 {
 	Client *c;
 	Monitor *m;
@@ -2556,7 +2556,7 @@ xerrorstart(Display *dpy, XErrorEvent *ee)
 }
 
 void
-xinitvisual()
+xinitvisual(void)
 {
     XVisualInfo *infos;
 	XRenderPictFormat *fmt;

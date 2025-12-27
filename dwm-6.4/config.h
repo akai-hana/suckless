@@ -51,46 +51,44 @@ static const char *tags[] = {"あ", "か", "い", "は", "な", "つ", "ん", "�
 /* WINDOW RULES */
 
 static const Rule rules[] = {
-	// class        instance  title  tags mask  isfloating  monitor
+	// class, instance, title, tags, mask, isfloating, monitor
 
-	// workspace 1: browsers
-	{ "firefox",     NULL, NULL, 1 << 0, 0, -1 },
-	{ "firefox-bin", NULL, NULL, 1 << 0, 0, -1 },
-	{ "zen",         NULL, NULL, 1 << 0, 0, -1 },
-	{ "zen-browser", NULL, NULL, 1 << 0, 0, -1 },
-	{ "vivaldi",     NULL, NULL, 1 << 0, 0, -1 },
-	{ "vivaldi-bin", NULL, NULL, 1 << 0, 0, -1 },
+	// workspace 1 (あ): firefox & opentabletdriver
+	{ "firefox",             NULL, NULL, 1 << 0, 0, -1 },
+	{ "firefox-bin",         NULL, NULL, 1 << 0, 0, -1 },
+	{ "OpenTabletDriver.UX", NULL, NULL, 1 << 0, 0, -1 },
 
-	// workspace 2: communication
+	// workspace 2 (か): discord (equibop)
 	{ "discord",  NULL, NULL, 1 << 1, 0, -1 },
 	{ "vesktop",  NULL, NULL, 1 << 1, 0, -1 },
 	{ "equibop",  NULL, NULL, 1 << 1, 0, -1 },
 	{ "electron", NULL, NULL, 1 << 1, 0, -1 },
 
-	// workspace 3: music
+	// workspace 3 (い): youtube music
 	{ "youtube-music",                  NULL,                             NULL, 1 << 2, 0, -1 },
 	{ NULL,                             "youtube-music",                  NULL, 1 << 2, 0, -1 },
 	{ "com.github.th_ch.youtube_music", NULL,                             NULL, 1 << 2, 0, -1 },
 	{ NULL,                             "com.github.th_ch.youtube_music", NULL, 1 << 2, 0, -1 },
 
-	// workspace 4: games
-	{ "osu!",          NULL, NULL, 1 << 3, 0, -1 },
-	{ "DDNet",         NULL, NULL, 1 << 3, 0, -1 },
-	{ "java",          NULL, NULL, 1 << 3, 0, -1 },
-	{ "Hollow Knight", NULL, NULL, 1 << 3, 0, -1 },
+	// workspace 4 (は): steam
+	{ "Steam", NULL, NULL, 1 << 3, 0, -1 },
+	{ "steam", NULL, NULL, 1 << 3, 0, -1 },
 
-	// workspace 5: development
-	{ "emacs", NULL, NULL, 1 << 4, 0, -1 },
-	{ "Emacs", NULL, NULL, 1 << 4, 0, -1 },
+	// workspace 5 (な): games (ddnet/osu)
+	{ "osu!",  NULL, NULL, 1 << 4, 0, -1 },
+	{ "DDNet", NULL, NULL, 1 << 4, 0, -1 },
 
-	// workspace 6: utilities
-	{ "Prismlauncher",       NULL,     NULL, 1 << 5, 0, -1 },
-	{ "corectrl",            NULL,     NULL, 1 << 5, 0, -1 },
-	{ "qbittorrent",         NULL,     NULL, 1 << 5, 0, -1 },
-	{ "Deluge",              NULL,     NULL, 1 << 5, 0, -1 },
-	{ NULL,                  "deluge", NULL, 1 << 5, 0, -1 },
-	{ "PrismLauncher",       NULL,     NULL, 1 << 5, 0, -1 },
-	{ "OpenTabletDriver.UX", NULL,     NULL, 1 << 5, 0, -1 },
+	// workspace 6 (つ): emacs
+	{ "emacs", NULL, NULL, 1 << 5, 0, -1 },
+	{ "Emacs", NULL, NULL, 1 << 5, 0, -1 },
+
+	// workspace 7 (ん): freetube
+	{ "FreeTube", NULL,       NULL, 1 << 6, 0, -1 },
+	{ NULL,       "freetube", NULL, 1 << 6, 0, -1 },
+
+	// workspace 8 (で): deluge
+	{ "Deluge", NULL,     NULL, 1 << 7, 0, -1 },
+	{ NULL,     "deluge", NULL, 1 << 7, 0, -1 },
 };
 
 /* LAYOUTS */
