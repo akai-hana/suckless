@@ -112,9 +112,7 @@ static const Layout layouts[] = {
 // system
 #define SHELL     "sh"
 #define TERMINAL  "ghostty"
-// preloader
-// #define RUNTIME "distrobox-enter artix-dinit -- " // old distrobox setup
-#define RUNTIME "flatpak run " // simpler flatpaks
+#define RUNTIME "flatpak run "
 
 // programs
 #define BROWSER      "firefox"
@@ -123,7 +121,7 @@ static const Layout layouts[] = {
 #define MUSIC        "com.github.th_ch.youtube_music"
 #define MUSIC_PATH   "youtube-music"
 #define TORRENT      "deluge"
-#define STEAM        "flatpak run com.valvesoftware.Steam"
+#define STEAM        "com.valvesoftware.Steam"
 #define STEAM_PATH   "steam"
 
 // games
@@ -185,7 +183,7 @@ static const char *termcmd[]    = { TERMINAL, NULL };
 static const char *discordcmd[] = { SHELL, "-c", RUNTIME DISCORD,  NULL };
 static const char *musiccmd[]   = { SHELL, "-c", RUNTIME MUSIC,    NULL };
 static const char *torrentcmd[] = { TORRENT,  NULL };
-static const char *steamcmd[]   = { STEAM,  NULL };
+static const char *steamcmd[]   = { SHELL, "-c", RUNTIME STEAM,  NULL };
 static const char *gamezcmd[]   = { GAME_Z_PATH, NULL };
 static const char *gamexcmd[]   = { GAME_X_PATH, NULL };
 static const char *gameccmd[]   = { GAME_C_PATH, NULL };
@@ -202,8 +200,8 @@ static const Key keys[] = {
 	TAGKEYS(XK_r, 7) // で
 	
 	// awesomebar patch
-	{ MODKEY,             XK_grave,  hide,           {0} },
-	{ MODKEY | ShiftMask, XK_grave,  showall,        {0} },
+	{ MODKEY,             XK_grave,  showall,        {0} },
+	{ MODKEY | ShiftMask, XK_grave,  hide,           {0} },
 
 	// *TAGKEYS
 	{ MODKEY,             XK_5,      view,           {.ui = ~0} }, // view all tags
@@ -251,7 +249,7 @@ static const Key keys[] = {
 
 	// steam
 	{ MODKEY,             XK_b, spawn, {.v = steamcmd }  },
-	{ MODKEY | ShiftMask, XK_b, spawn, PKILLCMD(TORRENT) },
+	{ MODKEY | ShiftMask, XK_b, spawn, PKILLCMD(STEAM_PATH) },
 
 	/* WINDOW MANAGER */
   // { MODKEY | ShiftMask, XK_Return, quit,          {0} },                 // quit dwm (GNU-style)
