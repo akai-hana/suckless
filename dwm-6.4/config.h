@@ -54,7 +54,8 @@ static const Rule rules[] = {
 	// class, instance, title, tags, mask, isfloating, monitor
 
 	// workspace 1 (あ): firefox & opentabletdriver
-	{ "firefox",             NULL, NULL, 1 << 0, 0, -1 },
+	{ "Firefox",             NULL, NULL, 1 << 0, 0, -1 },
+	{ "Navigator",           NULL, NULL, 1 << 0, 0, -1 },
 	{ "firefox-bin",         NULL, NULL, 1 << 0, 0, -1 },
 	{ "OpenTabletDriver.UX", NULL, NULL, 1 << 0, 0, -1 },
 
