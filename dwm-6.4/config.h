@@ -57,6 +57,7 @@ static const Rule rules[] = {
 	{ "Firefox",             NULL, NULL, 1 << 0, 0, -1 },
 	{ "Navigator",           NULL, NULL, 1 << 0, 0, -1 },
 	{ "firefox-bin",         NULL, NULL, 1 << 0, 0, -1 },
+
 	{ "OpenTabletDriver.UX", NULL, NULL, 1 << 0, 0, -1 },
 
 	// workspace 2 (か): discord (equibop)
@@ -66,8 +67,6 @@ static const Rule rules[] = {
 	{ "electron", NULL, NULL, 1 << 1, 0, -1 },
 
 	// workspace 3 (い): youtube music
-	{ "youtube-music",                  NULL,                             NULL, 1 << 2, 0, -1 },
-	{ NULL,                             "youtube-music",                  NULL, 1 << 2, 0, -1 },
 	{ "com.github.th_ch.youtube_music", NULL,                             NULL, 1 << 2, 0, -1 },
 	{ NULL,                             "com.github.th_ch.youtube_music", NULL, 1 << 2, 0, -1 },
 
