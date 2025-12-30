@@ -272,9 +272,6 @@ static const Key keys[] = {
 	{ MODKEY,             XK_space,  setlayout,      {0} },          // cycle layout
 	{ MODKEY | ShiftMask, XK_space,  togglefloating, {0} },
 
-	// togglewin patch
-	{ MODKEY,             XK_m,      togglewin,      {0} },
-
 	// multi-monitor
 	{ MODKEY,             XK_comma,  focusmon,       {.i = -1} },
 	{ MODKEY,             XK_period, focusmon,       {.i = +1} },

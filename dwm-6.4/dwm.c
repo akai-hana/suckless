@@ -63,14 +63,14 @@
 #define OPAQUE                  0xffU
 
 /* enums */
-enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeHid }; /* color schemes */
+enum { CurNormal, CurResize, CurMove, CurLast              }; /* cursor */
+enum { SchemeNorm, SchemeSel, SchemeHid                    }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
-       NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
+       NetWMWindowTypeDialog, NetClientList, NetLast       }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
 enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
-       ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
+       ClkClientWin, ClkRootWin, ClkLast                   }; /* clicks */
 
 typedef union {
 	int i;
@@ -244,7 +244,6 @@ static void togglefloating(const Arg *arg);
 static void togglefullscr(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
-static void togglewin(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
 static void unmanage(Client *c, bool destroyed);
 static void unmapnotify(XEvent *e);
@@ -2074,43 +2073,6 @@ toggleview(const Arg *arg)
 		arrange(selmon);
 	}
 }
-
-void
-
-togglewin(const Arg *arg)
-{
-    Client *c = NULL;
-    Monitor *m = NULL;
-
-    /* accept either a Client* or a Window id in arg->v */
-    if (arg && arg->v) {
-        c = (Client*)arg->v;
-        /* if arg->v wasn't actually a Client*, try wintoclient */
-        if (!c || !c->win)
-            c = wintoclient((Window)(uintptr_t)arg->v);
-    }
-
-    /* fallback to the currently focused client */
-    if (!c)
-        c = selmon ? selmon->sel : NULL;
-    if (!c)
-        return;
-
-    /* save monitor before any operation that might clear c->mon */
-    m = c->mon;
-
-    if (HIDDEN(c)) {
-        showwin(c);
-        focus(c);
-        restack(c->mon ? c->mon : m);
-    } else {
-        hidewin(c);
-        focus(NULL);
-        if (m)
-            arrange(m);
-    }
-}
-
 
 void
 
